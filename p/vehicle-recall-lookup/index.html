@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vehicle Recall and Complaint Lookup | ComradeCoding</title>
+<meta name="description" content="Get US vehicle recalls and owner complaints as flat JSON rows by make, model, year or VIN. $0.50 per 1,000 rows. Failed lookups and empty results are free. (153 characters)">
+<link rel="canonical" href="https://shop.comradecoding.com/p/vehicle-recall-lookup/">
+<meta property="og:title" content="Vehicle Recall and Complaint Lookup | ComradeCoding">
+<meta property="og:description" content="Get US vehicle recalls and owner complaints as flat JSON rows by make, model, year or VIN. $0.50 per 1,000 rows. Failed lookups and empty results are free. (153 characters)">
+<meta property="og:url" content="https://shop.comradecoding.com/p/vehicle-recall-lookup/">
+<meta property="og:type" content="website">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Product", "name": "Vehicle Recall and Complaint Lookup", "description": "Look up US vehicle recalls and owner complaints by make, model and year or by VIN. Flat JSON rows, $0.0005 per row, failures free. (129 characters)", "url": "https://shop.comradecoding.com/p/vehicle-recall-lookup/", "brand": {"@type": "Brand", "name": "ComradeCoding"}, "offers": {"@type": "Offer", "url": "https://apify.com/comradecoding/vehicle-recall-lookup", "priceCurrency": "USD", "price": "0.0005", "availability": "https://schema.org/InStock"}}</script>
+<style>
+:root{--bg:#fbf8f3;--ink:#1d1a16;--muted:#6b645a;--line:#e6dfd3;--red:#b3261e;--card:#fff;--gold:#c99a2e}
+@media (prefers-color-scheme:dark){:root{--bg:#16130f;--ink:#f2ece2;--muted:#a69d90;--line:#2e2922;--red:#ff6b5e;--card:#1e1a15;--gold:#e0b553}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--red)}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+header{border-bottom:1px solid var(--line);padding:20px 0}
+header .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand span{color:var(--red)}
+header nav a{color:var(--muted);text-decoration:none;font-size:15px}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.15;letter-spacing:-.02em;margin:40px 0 8px}
+.lede{color:var(--muted);margin:0 0 32px;max-width:640px}
+h2{font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:40px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.card:hover{border-color:var(--gold)}
+.card img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;border-bottom:1px solid var(--line);background:#fff}
+.card .noimg{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;font:700 22px/1.2 ui-monospace,monospace;color:var(--red);border-bottom:1px solid var(--line);padding:16px;text-align:center}
+.card .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h3{margin:0;font-size:17px;line-height:1.3}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.meta{font-size:13px;color:var(--muted);margin-top:auto;padding-top:6px}
+.meta b{color:var(--ink)}
+.buy{display:inline-block;background:var(--red);color:#fff;text-decoration:none;font-weight:700;padding:12px 20px;border-radius:8px;margin:8px 0 24px}
+.prod{max-width:720px}
+.prod img.hero{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:24px 0}
+.shots img{width:100%;border:1px solid var(--line);border-radius:6px;background:#fff}
+footer{border-top:1px solid var(--line);margin-top:56px;padding:24px 0;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<header><div class="wrap"><a class="brand" href="/">Comrade<span>Coding</span> shop</a><nav><a href="https://comradecoding.com/">comradecoding.com</a></nav></div></header>
+<main class="wrap">
+<article class="prod">
+<h1>Vehicle Recall and Complaint Lookup</h1>
+<p class="lede">Look up US vehicle recalls and owner complaints by make, model and year or by VIN. Flat JSON rows, $0.0005 per row, failures free. (129 characters)</p>
+
+<a class="buy" href="https://apify.com/comradecoding/vehicle-recall-lookup">Get it on Apify, $0.0005 per row</a>
+<p>Give it a list of vehicles (make, model, model year) or VINs and get one flat JSON row per recall campaign or owner complaint. Every row has the same fields in the same order: record type, vehicle, manufacturer, record ID, date, components, summary, and for recalls the consequence and remedy, for complaints the crash, fire, injury and death flags.</p>
+<p>The data comes from the US federal vehicle safety agency&#x27;s free public API. The actor matches your model name to the names the agency uses (so &quot;crv&quot; finds &quot;CR-V&quot;), removes duplicates, and puts the newest complaints first.</p>
+<p>A VIN lookup decodes the VIN to its make, model and year, then returns the recalls for that vehicle line. It is not a repair-status check for one car. For that, use the manufacturer&#x27;s or the agency&#x27;s own VIN search page.</p>
+<p>Limits: US vehicles only, no tires or equipment, complaint text passed through exactly as published. Not affiliated with or endorsed by any government agency or vehicle maker.</p>
+
+<a class="buy" href="https://apify.com/comradecoding/vehicle-recall-lookup">Get it on Apify</a>
+<p><a href="/">See all products</a></p>
+</article>
+</main>
+<footer><div class="wrap">Small tools and printables by ComradeCoding. Each product is sold on the store linked from its page.</div></footer>
+</body>
+</html>
