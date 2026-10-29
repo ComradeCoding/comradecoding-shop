@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Extract Text and Metadata From PDF Links in Bulk | ComradeCoding</title>
+<meta name="description" content="Get the text of every page and the title, author, dates and page count from a list of PDF URLs, with free command line tools or in one batch run.">
+<link rel="canonical" href="https://shop.comradecoding.com/guides/extract-text-from-pdf-urls/">
+<meta property="og:title" content="How to Extract Text and Metadata From PDF Links in Bulk | ComradeCoding">
+<meta property="og:description" content="Get the text of every page and the title, author, dates and page count from a list of PDF URLs, with free command line tools or in one batch run.">
+<meta property="og:url" content="https://shop.comradecoding.com/guides/extract-text-from-pdf-urls/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to Extract Text and Metadata From PDF Links in Bulk", "description": "Get the text of every page and the title, author, dates and page count from a list of PDF URLs, with free command line tools or in one batch run.", "url": "https://shop.comradecoding.com/guides/extract-text-from-pdf-urls/", "mainEntityOfPage": "https://shop.comradecoding.com/guides/extract-text-from-pdf-urls/", "datePublished": "2026-10-29", "dateModified": "2026-10-29", "author": {"@type": "Organization", "name": "ComradeCoding"}, "publisher": {"@type": "Organization", "name": "ComradeCoding"}}</script>
+<style>
+:root{--bg:#fbf8f3;--ink:#1d1a16;--muted:#6b645a;--line:#e6dfd3;--red:#b3261e;--card:#fff;--gold:#c99a2e}
+@media (prefers-color-scheme:dark){:root{--bg:#16130f;--ink:#f2ece2;--muted:#a69d90;--line:#2e2922;--red:#ff6b5e;--card:#1e1a15;--gold:#e0b553}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--red)}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+header{border-bottom:1px solid var(--line);padding:20px 0}
+header .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand span{color:var(--red)}
+header nav a{color:var(--muted);text-decoration:none;font-size:15px}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.15;letter-spacing:-.02em;margin:40px 0 8px}
+.lede{color:var(--muted);margin:0 0 32px;max-width:640px}
+h2{font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:40px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.card:hover{border-color:var(--gold)}
+.card img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;border-bottom:1px solid var(--line);background:#fff}
+.card .noimg{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;font:700 22px/1.2 ui-monospace,monospace;color:var(--red);border-bottom:1px solid var(--line);padding:16px;text-align:center}
+.card .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h3{margin:0;font-size:17px;line-height:1.3}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.meta{font-size:13px;color:var(--muted);margin-top:auto;padding-top:6px}
+.meta b{color:var(--ink)}
+.buy{display:inline-block;background:var(--red);color:#fff;text-decoration:none;font-weight:700;padding:12px 20px;border-radius:8px;margin:8px 0 24px}
+.prod{max-width:720px}
+.prod img.hero{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:24px 0}
+.shots img{width:100%;border:1px solid var(--line);border-radius:6px;background:#fff}
+.guide{max-width:720px}
+.guide h2{font-size:22px;text-transform:none;letter-spacing:-.01em;color:var(--ink);margin:36px 0 10px}
+.guide h3{font-size:18px;margin:24px 0 6px}
+.guide li{margin:4px 0}
+code{font:15px/1.4 ui-monospace,Consolas,monospace;background:var(--card);border:1px solid var(--line);border-radius:4px;padding:1px 4px;overflow-wrap:anywhere}
+pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto}
+pre code{border:0;padding:0;background:none;overflow-wrap:normal}
+.cta{background:var(--card);border:1px solid var(--gold);border-radius:10px;padding:16px 18px;margin:32px 0}
+.cta p{margin:0 0 8px}
+.cta .buy{margin:4px 12px 0 0}
+.note{color:var(--muted);font-size:14px;margin-top:32px}
+footer{border-top:1px solid var(--line);margin-top:56px;padding:24px 0;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<header><div class="wrap"><a class="brand" href="/">Comrade<span>Coding</span> shop</a><nav><a href="/guides/">Guides</a> &nbsp; <a href="https://comradecoding.com/">comradecoding.com</a></nav></div></header>
+<main class="wrap">
+<article class="guide">
+<h1>How to Extract Text and Metadata From PDF Links in Bulk</h1>
+<p class="lede">Get the text of every page and the title, author, dates and page count from a list of PDF URLs, with free command line tools or in one batch run.</p>
+<p>You have a list of PDF links: reports, papers, manuals, forms, a public document archive. You want the text inside them for a search index or a language model, and the metadata (title, author, creation date, page count) in a table. Opening each file by hand is not an option past a dozen or so.</p>
+<p>Here is the free way to do it, what goes wrong, and a faster option for long lists.</p>
+<h2>Step 1: Collect the links</h2>
+<p>Put one PDF URL per line in a text file, <code>urls.txt</code>. Make sure each link points at the PDF file itself, not at a web page that shows or links to it. A quick test: open the link and check that the browser shows the PDF viewer, or that the address ends in the file.</p>
+<h2>Step 2: Download the files</h2>
+<p>With <code>wget</code> or <code>curl</code>, politely, with a pause between requests:</p>
+<pre><code>wget --wait=1 --random-wait -i urls.txt -P pdfs/</code></pre>
+<p>Some sites ask for a longer delay in their robots.txt <code>Crawl-delay</code> line. Respect it.</p>
+<h2>Step 3: Extract text and metadata</h2>
+<p>Poppler's command line tools are free and fast. <code>pdftotext</code> writes the text and <code>pdfinfo</code> prints the metadata:</p>
+<pre><code>for f in pdfs/*.pdf; do
+  pdftotext -layout &quot;$f&quot; &quot;${f%.pdf}.txt&quot;
+  pdfinfo &quot;$f&quot; &gt; &quot;${f%.pdf}.info.txt&quot;
+done</code></pre>
+<p><code>pdfinfo</code> shows fields such as Title, Author, Creator, Producer, CreationDate, ModDate, Pages and PDF version. In Python, <code>pypdf</code> gives you the same data per page if you want JSON instead of text files.</p>
+<h2>Step 4: Check what you got</h2>
+<ul><li><b>Empty text.</b> If a file returns no text, it is probably a scanned document: the pages are images. You need OCR for those, for example Tesseract or <code>ocrmypdf</code>, which adds a text layer you can then extract.</li><li><b>Missing metadata.</b> Many PDFs leave title and author blank, especially ones made by scanners or LaTeX. That is normal.</li><li><b>Odd order.</b> Text comes out in the order it is stored in the file. For single column documents that is reading order. Multi column layouts and tables can come out with columns mixed together.</li><li><b>Not a PDF.</b> If the server returned an HTML login or error page, the tools will fail on it. Check the first bytes or the file type.</li><li><b>Your rights.</b> The text includes whatever is printed in the document, names and contact details included. Make sure you may use it.</li></ul>
+<h2>Where the manual way gets slow</h2>
+<p>It works, but with hundreds of links you also end up writing code to handle failures, skip oversized files, respect each site's robots.txt and crawl delay, and merge everything into one dataset.</p>
+<p>PDF to Text and JSON, an Apify actor, does that in one run. You give it the list of PDF URLs. For each file it checks robots.txt (and waits the site's <code>Crawl-delay</code>), stops the download early if the first bytes are not a PDF, reads the text layer page by page with pdf.js (the PDF engine in Firefox), and reads the document info and XMP metadata.</p>
+<p>Each result has <code>title</code>, <code>author</code>, <code>subject</code>, <code>keywords</code>, <code>creator</code>, <code>producer</code>, <code>created_at</code>, <code>modified_at</code>, <code>pdf_version</code>, <code>page_count</code>, <code>file_size_bytes</code>, word and character counts, <code>has_text</code> and <code>pages_without_text</code> (to flag scans), the full <code>text</code>, and a <code>pages</code> array with each page's text. You can read only the first N pages with <code>maxPagesPerPdf</code> and skip big files with <code>maxFileSizeMb</code>.</p>
+<p>It costs $0.005 per PDF whatever the page count, so 100 PDFs is $0.50. Failed links are not charged and are listed with a reason, such as <code>HTTP 404</code>, <code>Not a PDF</code>, or <code>PDF is password protected</code>.</p>
+<p>Its limits: there is no OCR, so scanned pages return empty text (they are still counted, because page count and metadata come back). It does not log in or open password protected files. It has no table detection, files over 100 MB are always skipped, and slow crawl delays make some sites slow (arXiv asks for 15 seconds between requests).</p>
+<aside class="cta"><p><b>PDF to Text and JSON</b>: Give it PDF links, get the text of every page plus title, author, dates and page count as JSON. No OCR. $0.005 per PDF.</p>
+<p><a href="/p/pdf-to-text/">Product page</a> &nbsp; <a class="buy" href="https://apify.com/comradecoding/pdf-to-text">Get it on Apify, $0.005 per PDF</a></p></aside>
+<h2>FAQ</h2>
+<h3>Can I extract tables from PDFs this way?</h3>
+<p>Not as tables. Both pdftotext and the actor return text in stored order, so cells may land on separate lines. For real tables, use a table extraction tool such as Camelot or Tabula on the downloaded files.</p>
+<h3>How do I tell which PDFs are scanned?</h3>
+<p>With pdftotext, look for empty output files. With the actor, filter rows where <code>has_text</code> is false.</p>
+<h3>Does it work on PDFs behind a login?</h3>
+<p>No. Both methods above assume public links. Download private files yourself and process them locally.</p>
+<h3>What about web pages, not PDFs?</h3>
+<p>Use a web page converter instead; see <a href="/guides/convert-web-page-to-markdown/">how to convert a web page to Markdown</a>.</p>
+<p class="note">This guide was written with AI (Claude) and checked against the product's documentation.</p>
+<p><a href="/guides/">All guides</a> &nbsp; <a href="/">All products</a></p>
+</article>
+</main>
+<footer><div class="wrap">Small tools and printables by ComradeCoding. Each product is sold on the store linked from its page. <a href="/about/">About and privacy</a></div></footer>
+</body>
+</html>

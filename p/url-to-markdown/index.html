@@ -42,11 +42,22 @@ h2{font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--mute
 .prod img.hero{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
 .shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:24px 0}
 .shots img{width:100%;border:1px solid var(--line);border-radius:6px;background:#fff}
+.guide{max-width:720px}
+.guide h2{font-size:22px;text-transform:none;letter-spacing:-.01em;color:var(--ink);margin:36px 0 10px}
+.guide h3{font-size:18px;margin:24px 0 6px}
+.guide li{margin:4px 0}
+code{font:15px/1.4 ui-monospace,Consolas,monospace;background:var(--card);border:1px solid var(--line);border-radius:4px;padding:1px 4px;overflow-wrap:anywhere}
+pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto}
+pre code{border:0;padding:0;background:none;overflow-wrap:normal}
+.cta{background:var(--card);border:1px solid var(--gold);border-radius:10px;padding:16px 18px;margin:32px 0}
+.cta p{margin:0 0 8px}
+.cta .buy{margin:4px 12px 0 0}
+.note{color:var(--muted);font-size:14px;margin-top:32px}
 footer{border-top:1px solid var(--line);margin-top:56px;padding:24px 0;color:var(--muted);font-size:14px}
 </style>
 </head>
 <body>
-<header><div class="wrap"><a class="brand" href="/">Comrade<span>Coding</span> shop</a><nav><a href="https://comradecoding.com/">comradecoding.com</a></nav></div></header>
+<header><div class="wrap"><a class="brand" href="/">Comrade<span>Coding</span> shop</a><nav><a href="/guides/">Guides</a> &nbsp; <a href="https://comradecoding.com/">comradecoding.com</a></nav></div></header>
 <main class="wrap">
 <article class="prod">
 <h1>URL to Markdown Converter</h1>
@@ -58,6 +69,7 @@ footer{border-top:1px solid var(--line);margin-top:56px;padding:24px 0;color:var
 <p>It checks robots.txt first and skips disallowed pages. Failed and skipped pages are never added to your results, so you are not charged for them. They are listed with a reason in the FAILED_URLS record.</p>
 <p>Limits: public pages only, no login. It does not run JavaScript, so pages that build their content in the browser can come back mostly empty. HTML and plain text only (no PDFs). It does not crawl; you list the URLs. About one page per second on a single site.</p>
 
+<p>How-to guide: <a href="/guides/convert-web-page-to-markdown/">How to Convert a Web Page to Markdown for an LLM or RAG Pipeline</a></p>
 <a class="buy" href="https://apify.com/comradecoding/url-to-markdown">Get it on Apify</a>
 <h2>Related</h2><div class="grid"><a class="card" href="/p/sitemap-url-extractor/"><div class="noimg">Sitemap URL Extractor</div><div class="body">
 <h3>Sitemap URL Extractor</h3><p>Enter a domain, get every page URL from its sitemaps with lastmod dates. Follows nested and gzipped sitemaps. Pay per URL.</p>

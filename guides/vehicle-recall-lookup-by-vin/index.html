@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Look Up US Vehicle Recalls and Complaints by VIN or Make, Model and Year | ComradeCoding</title>
+<meta name="description" content="Check a car&#x27;s open recalls by VIN, list every recall and owner complaint for a make, model and year, and pull the same data in bulk from the free public API.">
+<link rel="canonical" href="https://shop.comradecoding.com/guides/vehicle-recall-lookup-by-vin/">
+<meta property="og:title" content="How to Look Up US Vehicle Recalls and Complaints by VIN or Make, Model and Year | ComradeCoding">
+<meta property="og:description" content="Check a car&#x27;s open recalls by VIN, list every recall and owner complaint for a make, model and year, and pull the same data in bulk from the free public API.">
+<meta property="og:url" content="https://shop.comradecoding.com/guides/vehicle-recall-lookup-by-vin/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to Look Up US Vehicle Recalls and Complaints by VIN or Make, Model and Year", "description": "Check a car's open recalls by VIN, list every recall and owner complaint for a make, model and year, and pull the same data in bulk from the free public API.", "url": "https://shop.comradecoding.com/guides/vehicle-recall-lookup-by-vin/", "mainEntityOfPage": "https://shop.comradecoding.com/guides/vehicle-recall-lookup-by-vin/", "datePublished": "2026-10-29", "dateModified": "2026-10-29", "author": {"@type": "Organization", "name": "ComradeCoding"}, "publisher": {"@type": "Organization", "name": "ComradeCoding"}}</script>
+<style>
+:root{--bg:#fbf8f3;--ink:#1d1a16;--muted:#6b645a;--line:#e6dfd3;--red:#b3261e;--card:#fff;--gold:#c99a2e}
+@media (prefers-color-scheme:dark){:root{--bg:#16130f;--ink:#f2ece2;--muted:#a69d90;--line:#2e2922;--red:#ff6b5e;--card:#1e1a15;--gold:#e0b553}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--red)}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+header{border-bottom:1px solid var(--line);padding:20px 0}
+header .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand span{color:var(--red)}
+header nav a{color:var(--muted);text-decoration:none;font-size:15px}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.15;letter-spacing:-.02em;margin:40px 0 8px}
+.lede{color:var(--muted);margin:0 0 32px;max-width:640px}
+h2{font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:40px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.card:hover{border-color:var(--gold)}
+.card img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;border-bottom:1px solid var(--line);background:#fff}
+.card .noimg{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;font:700 22px/1.2 ui-monospace,monospace;color:var(--red);border-bottom:1px solid var(--line);padding:16px;text-align:center}
+.card .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h3{margin:0;font-size:17px;line-height:1.3}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.meta{font-size:13px;color:var(--muted);margin-top:auto;padding-top:6px}
+.meta b{color:var(--ink)}
+.buy{display:inline-block;background:var(--red);color:#fff;text-decoration:none;font-weight:700;padding:12px 20px;border-radius:8px;margin:8px 0 24px}
+.prod{max-width:720px}
+.prod img.hero{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:24px 0}
+.shots img{width:100%;border:1px solid var(--line);border-radius:6px;background:#fff}
+.guide{max-width:720px}
+.guide h2{font-size:22px;text-transform:none;letter-spacing:-.01em;color:var(--ink);margin:36px 0 10px}
+.guide h3{font-size:18px;margin:24px 0 6px}
+.guide li{margin:4px 0}
+code{font:15px/1.4 ui-monospace,Consolas,monospace;background:var(--card);border:1px solid var(--line);border-radius:4px;padding:1px 4px;overflow-wrap:anywhere}
+pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto}
+pre code{border:0;padding:0;background:none;overflow-wrap:normal}
+.cta{background:var(--card);border:1px solid var(--gold);border-radius:10px;padding:16px 18px;margin:32px 0}
+.cta p{margin:0 0 8px}
+.cta .buy{margin:4px 12px 0 0}
+.note{color:var(--muted);font-size:14px;margin-top:32px}
+footer{border-top:1px solid var(--line);margin-top:56px;padding:24px 0;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<header><div class="wrap"><a class="brand" href="/">Comrade<span>Coding</span> shop</a><nav><a href="/guides/">Guides</a> &nbsp; <a href="https://comradecoding.com/">comradecoding.com</a></nav></div></header>
+<main class="wrap">
+<article class="guide">
+<h1>How to Look Up US Vehicle Recalls and Complaints by VIN or Make, Model and Year</h1>
+<p class="lede">Check a car&#x27;s open recalls by VIN, list every recall and owner complaint for a make, model and year, and pull the same data in bulk from the free public API.</p>
+<p>In the US, safety recalls and owner complaints are filed with the National Highway Traffic Safety Administration (NHTSA), and the data is public and free. There are two different questions you can ask of it, and it helps to know which one you mean:</p>
+<ul><li><b>Is this one car affected, and has it been fixed?</b> That needs a VIN search against the manufacturer's repair records.</li><li><b>What recalls and complaints exist for this kind of car?</b> That is a lookup by make, model and model year, and it covers every vehicle of that line.</li></ul>
+<h2>Check one car's open recalls (free)</h2>
+<ol><li>Find the 17 character VIN. It is on the dashboard at the driver's side corner of the windshield, on the driver's door jamb, and on the registration and insurance papers.</li><li>Enter it on NHTSA's recall page at <a href="https://www.nhtsa.gov/recalls">nhtsa.gov/recalls</a>, or on the manufacturer's own recall lookup.</li><li>The result shows open recalls that have not been repaired on that vehicle, or says there are none.</li></ol>
+<p>This is the only way to learn whether a specific car still needs a repair. If it does, contact a dealer of that brand; the recall notice says what the fix is.</p>
+<h2>List all recalls and complaints for a model (free)</h2>
+<p>NHTSA's site also lets you search by year, make and model instead of VIN. That shows the recall campaigns for the whole vehicle line, and the complaints owners have filed about it. This is useful before buying a used car, or when you want to know whether a problem you have is common.</p>
+<h2>Use the public API (free, for developers)</h2>
+<p>The same data is available as JSON with no key:</p>
+<pre><code>https://api.nhtsa.gov/recalls/recallsByVehicle?make=honda&amp;model=accord&amp;modelYear=2018
+https://api.nhtsa.gov/complaints/complaintsByVehicle?make=honda&amp;model=accord&amp;modelYear=2018
+https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValues/YOURVIN?format=json</code></pre>
+<p>The third one decodes a VIN into make, model and year. Things that trip people up:</p>
+<ul><li><b>Model names must match exactly.</b> The recall endpoints want the agency's spelling, such as <code>CR-V</code>, not <code>crv</code>. Some models are split, such as a decoded <code>Silverado 1500</code> matching both <code>SILVERADO 1500</code> and <code>SILVERADO LD 1500</code>.</li><li><b>Dates differ.</b> Recall and complaint dates come in different formats.</li><li><b>There is no recall by VIN endpoint.</b> The API answers by make, model and year. A VIN only helps by decoding to those three.</li></ul>
+<h2>Doing many vehicles at once</h2>
+<p>For a fleet list, a dealer inventory, or research across many models, the API calls, name matching and date cleanup add up. Vehicle Recall and Complaint Lookup, an Apify actor, does them for you. Give it vehicles as make, model and year (for example <code>2018, Honda, Accord</code>) or full VINs. It decodes each VIN, matches the agency's exact model names, fetches recalls and complaints, drops duplicates, sorts complaints newest first, and returns one flat row per recall or complaint with the same fields every time: campaign or complaint number, date as <code>YYYY-MM-DD</code>, components, summary, consequence, remedy, the do not drive and park outside flags, and for complaints the crash, fire, injury and death fields as reported.</p>
+<p>It costs $0.0005 per row. One vehicle with its recalls and the 50 newest complaints is about 55 rows, about $0.03. Vehicles with no records are free, and failed lookups are listed with a reason.</p>
+<p><b>Be clear on one limit.</b> A VIN lookup in this actor returns every recall for that vehicle's make, model and year, not the repair status of that one car. The public API has no recall by VIN endpoint. To see whether a specific car is affected or already repaired, use the VIN search on nhtsa.gov or the manufacturer's site, as in the first section above.</p>
+<p>Other limits: US vehicles only, vehicle recalls only (not tires, child seats or equipment), the same publishing delay the agency has, and complaint text exactly as owners wrote it. The actor is not affiliated with NHTSA or any manufacturer.</p>
+<aside class="cta"><p><b>Vehicle Recall and Complaint Lookup</b>: Look up US vehicle recalls and owner complaints by make, model and year or by VIN. Flat JSON rows, $0.0005 per row, failures free. (129 characters)</p>
+<p><a href="/p/vehicle-recall-lookup/">Product page</a> &nbsp; <a class="buy" href="https://apify.com/comradecoding/vehicle-recall-lookup">Get it on Apify, $0.0005 per row</a></p></aside>
+<h2>FAQ</h2>
+<h3>Does a recall on my model mean my car is affected?</h3>
+<p>Not necessarily. Many recalls cover only some vehicles in a model year, for example a production date range. Use the VIN search on nhtsa.gov or the manufacturer's site to check your car.</p>
+<h3>Are owner complaints verified?</h3>
+<p>No. They are reports filed by the public. They are useful for spotting patterns, not as proof of a defect.</p>
+<h3>Why does the complaint VIN only show 11 characters?</h3>
+<p>The public data publishes a partial VIN for complaints. The full VIN is not released.</p>
+<h3>Is the recall repair free?</h3>
+<p>Safety recall repairs are normally free at the manufacturer's dealers. The recall's remedy text says what the fix is and whether it is free, so read it for your campaign and ask the dealer if anything is unclear.</p>
+<p class="note">This guide was written with AI (Claude) and checked against the product's documentation.</p>
+<p><a href="/guides/">All guides</a> &nbsp; <a href="/">All products</a></p>
+</article>
+</main>
+<footer><div class="wrap">Small tools and printables by ComradeCoding. Each product is sold on the store linked from its page. <a href="/about/">About and privacy</a></div></footer>
+</body>
+</html>

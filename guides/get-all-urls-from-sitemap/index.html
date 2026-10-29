@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Get Every URL From a Website&#x27;s Sitemap | ComradeCoding</title>
+<meta name="description" content="Find a site&#x27;s sitemap, follow sitemap index and .xml.gz files, and export every page URL with its lastmod date, by hand or in bulk.">
+<link rel="canonical" href="https://shop.comradecoding.com/guides/get-all-urls-from-sitemap/">
+<meta property="og:title" content="How to Get Every URL From a Website&#x27;s Sitemap | ComradeCoding">
+<meta property="og:description" content="Find a site&#x27;s sitemap, follow sitemap index and .xml.gz files, and export every page URL with its lastmod date, by hand or in bulk.">
+<meta property="og:url" content="https://shop.comradecoding.com/guides/get-all-urls-from-sitemap/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to Get Every URL From a Website's Sitemap", "description": "Find a site's sitemap, follow sitemap index and .xml.gz files, and export every page URL with its lastmod date, by hand or in bulk.", "url": "https://shop.comradecoding.com/guides/get-all-urls-from-sitemap/", "mainEntityOfPage": "https://shop.comradecoding.com/guides/get-all-urls-from-sitemap/", "datePublished": "2026-10-29", "dateModified": "2026-10-29", "author": {"@type": "Organization", "name": "ComradeCoding"}, "publisher": {"@type": "Organization", "name": "ComradeCoding"}}</script>
+<style>
+:root{--bg:#fbf8f3;--ink:#1d1a16;--muted:#6b645a;--line:#e6dfd3;--red:#b3261e;--card:#fff;--gold:#c99a2e}
+@media (prefers-color-scheme:dark){:root{--bg:#16130f;--ink:#f2ece2;--muted:#a69d90;--line:#2e2922;--red:#ff6b5e;--card:#1e1a15;--gold:#e0b553}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--red)}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+header{border-bottom:1px solid var(--line);padding:20px 0}
+header .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand span{color:var(--red)}
+header nav a{color:var(--muted);text-decoration:none;font-size:15px}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.15;letter-spacing:-.02em;margin:40px 0 8px}
+.lede{color:var(--muted);margin:0 0 32px;max-width:640px}
+h2{font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:40px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.card:hover{border-color:var(--gold)}
+.card img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;border-bottom:1px solid var(--line);background:#fff}
+.card .noimg{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;font:700 22px/1.2 ui-monospace,monospace;color:var(--red);border-bottom:1px solid var(--line);padding:16px;text-align:center}
+.card .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h3{margin:0;font-size:17px;line-height:1.3}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.meta{font-size:13px;color:var(--muted);margin-top:auto;padding-top:6px}
+.meta b{color:var(--ink)}
+.buy{display:inline-block;background:var(--red);color:#fff;text-decoration:none;font-weight:700;padding:12px 20px;border-radius:8px;margin:8px 0 24px}
+.prod{max-width:720px}
+.prod img.hero{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:24px 0}
+.shots img{width:100%;border:1px solid var(--line);border-radius:6px;background:#fff}
+.guide{max-width:720px}
+.guide h2{font-size:22px;text-transform:none;letter-spacing:-.01em;color:var(--ink);margin:36px 0 10px}
+.guide h3{font-size:18px;margin:24px 0 6px}
+.guide li{margin:4px 0}
+code{font:15px/1.4 ui-monospace,Consolas,monospace;background:var(--card);border:1px solid var(--line);border-radius:4px;padding:1px 4px;overflow-wrap:anywhere}
+pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto}
+pre code{border:0;padding:0;background:none;overflow-wrap:normal}
+.cta{background:var(--card);border:1px solid var(--gold);border-radius:10px;padding:16px 18px;margin:32px 0}
+.cta p{margin:0 0 8px}
+.cta .buy{margin:4px 12px 0 0}
+.note{color:var(--muted);font-size:14px;margin-top:32px}
+footer{border-top:1px solid var(--line);margin-top:56px;padding:24px 0;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<header><div class="wrap"><a class="brand" href="/">Comrade<span>Coding</span> shop</a><nav><a href="/guides/">Guides</a> &nbsp; <a href="https://comradecoding.com/">comradecoding.com</a></nav></div></header>
+<main class="wrap">
+<article class="guide">
+<h1>How to Get Every URL From a Website&#x27;s Sitemap</h1>
+<p class="lede">Find a site&#x27;s sitemap, follow sitemap index and .xml.gz files, and export every page URL with its lastmod date, by hand or in bulk.</p>
+<p>A sitemap is the list of pages a site wants search engines to know about. Most sites publish one, and reading it is usually the quickest way to get a full page list for an SEO audit, a content inventory, a migration check, or a crawler you are building. It is also much lighter on the site than crawling every link.</p>
+<p>Here is how to do it by hand, with a short script, and with a tool when you need many sites at once.</p>
+<h2>Step 1: Find the sitemap</h2>
+<ol><li>Open <code>https://example.com/robots.txt</code> in a browser. Look for lines that start with <code>Sitemap:</code>. A site can list several.</li><li>If robots.txt lists none, try <code>https://example.com/sitemap.xml</code>, then <code>https://example.com/sitemap_index.xml</code>.</li><li>If neither exists, the site may have no sitemap at all. Some CMS plugins use other paths, so a search such as <code>site:example.com sitemap</code> can help, but there is no guarantee one exists.</li></ol>
+<h2>Step 2: Work out what kind of file it is</h2>
+<p>Open the sitemap URL and look at the first lines:</p>
+<ul><li>A <code>&lt;urlset&gt;</code> file is a list of pages. Each page is in a <code>&lt;loc&gt;</code> tag, often with a <code>&lt;lastmod&gt;</code> date.</li><li>A <code>&lt;sitemapindex&gt;</code> file is a list of other sitemaps. Big sites split their pages across many files, and an index can point to further indexes.</li><li>A file ending in <code>.gz</code> is gzip compressed. Your browser will download it rather than show it.</li><li>Some sites use a plain text sitemap with one URL per line.</li></ul>
+<p>The sitemap protocol limits one file to 50,000 URLs, so a large site almost always uses an index.</p>
+<h2>Step 3: Pull the URLs out</h2>
+<p>For a single small <code>&lt;urlset&gt;</code> file, a one-line command works on macOS, Linux, or Git Bash on Windows:</p>
+<pre><code>curl -s https://example.com/sitemap.xml | grep -o &#x27;&lt;loc&gt;[^&lt;]*&lt;/loc&gt;&#x27; | sed &#x27;s/&lt;[^&gt;]*&gt;//g&#x27; &gt; urls.txt</code></pre>
+<p>For a gzipped file, add a decompression step:</p>
+<pre><code>curl -s https://example.com/sitemap-0.xml.gz | gunzip | grep -o &#x27;&lt;loc&gt;[^&lt;]*&lt;/loc&gt;&#x27; | sed &#x27;s/&lt;[^&gt;]*&gt;//g&#x27;</code></pre>
+<p>For an index, run the same command on the index first. The <code>&lt;loc&gt;</code> values you get are sitemap files, so run the command again on each one and join the results. In Python, the <code>getsitemap</code> library on PyPI does this recursion for you, starting from robots.txt and the usual paths.</p>
+<h2>Step 4: Clean the list</h2>
+<ul><li>Remove duplicates. The same page often appears in more than one sitemap.</li><li>Filter to the section you care about, such as URLs containing <code>/blog/</code>.</li><li>If you only want recent changes, keep rows whose <code>lastmod</code> is after your cutoff. Treat <code>lastmod</code> with care: some sites stamp every URL with the time of their last build, so it is not always a true edit date.</li></ul>
+<h2>Where it gets slow</h2>
+<p>The manual method is fine for one site with a few files. It gets tedious when an index points to dozens of gzipped files, when you have a list of domains, or when you need the source file and <code>lastmod</code> for every URL in one table. Be polite as well: if you script this, pause between requests and respect robots.txt.</p>
+<p>Sitemap URL Extractor, an Apify actor, does these steps for a list of domains. It reads robots.txt, falls back to <code>/sitemap.xml</code> and <code>/sitemap_index.xml</code>, follows index files up to 5 levels deep, detects gzip from the file content, and returns one row per unique URL with <code>lastmod</code>, <code>changefreq</code>, <code>priority</code> and the sitemap file it came from. You can filter with a regular expression (<code>urlPattern</code>), keep only URLs changed since a date or age such as <code>30 days</code> (<code>modifiedSince</code>), and cap each run with <code>maxItems</code> and <code>maxItemsPerDomain</code>. It costs $0.0005 per returned URL, so the default cap of 1,000 URLs is about $0.50.</p>
+<p>Its limits, so you know what it will not do: it respects robots.txt and skips a site whose robots.txt cannot be reached, it does not crawl pages when a site has no sitemap, it does not return image, video, news or hreflang entries, and it does not read RSS or Atom feeds used as sitemaps.</p>
+<aside class="cta"><p><b>Sitemap URL Extractor</b>: Enter a domain, get every page URL from its sitemaps with lastmod dates. Follows nested and gzipped sitemaps. Pay per URL.</p>
+<p><a href="/p/sitemap-url-extractor/">Product page</a> &nbsp; <a class="buy" href="https://apify.com/comradecoding/sitemap-url-extractor">Get it on Apify, $0.0005 per URL</a></p></aside>
+<h2>FAQ</h2>
+<h3>Does every website have a sitemap?</h3>
+<p>No. Many do, because CMS platforms and SEO plugins create one, but it is optional. If there is none, the only way to list pages is to crawl links from the home page.</p>
+<h3>Is a sitemap a complete list of pages?</h3>
+<p>Not always. It lists the pages the site chose to include. Old, private or badly configured pages may be missing, and some listed URLs may redirect or return errors.</p>
+<h3>How do I get the page content, not just the URLs?</h3>
+<p>Fetch each URL. If you want clean text for a language model or search index, pass the list to <a href="/p/url-to-markdown/">URL to Markdown Converter</a>, and see the guide on <a href="/guides/convert-web-page-to-markdown/">converting a web page to Markdown</a>.</p>
+<h3>Can I use this on a competitor's site?</h3>
+<p>A public sitemap is published for crawlers to read. Respect the site's robots.txt and terms, and keep request rates low.</p>
+<p class="note">This guide was written with AI (Claude) and checked against the product's documentation.</p>
+<p><a href="/guides/">All guides</a> &nbsp; <a href="/">All products</a></p>
+</article>
+</main>
+<footer><div class="wrap">Small tools and printables by ComradeCoding. Each product is sold on the store linked from its page. <a href="/about/">About and privacy</a></div></footer>
+</body>
+</html>
