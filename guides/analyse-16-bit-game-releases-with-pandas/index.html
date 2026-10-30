@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Analyse 16-bit Era Game Releases With pandas (Releases per Year, Genre, Region) | ComradeCoding</title>
+<meta name="description" content="Build a table of one console&#x27;s games from Wikipedia and Wikidata, or load a ready CSV, then answer questions like releases per year, Japan-only titles and the most common genres with a few lines of pandas.">
+<link rel="canonical" href="https://shop.comradecoding.com/guides/analyse-16-bit-game-releases-with-pandas/">
+<meta property="og:title" content="How to Analyse 16-bit Era Game Releases With pandas (Releases per Year, Genre, Region) | ComradeCoding">
+<meta property="og:description" content="Build a table of one console&#x27;s games from Wikipedia and Wikidata, or load a ready CSV, then answer questions like releases per year, Japan-only titles and the most common genres with a few lines of pandas.">
+<meta property="og:url" content="https://shop.comradecoding.com/guides/analyse-16-bit-game-releases-with-pandas/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to Analyse 16-bit Era Game Releases With pandas (Releases per Year, Genre, Region)", "description": "Build a table of one console's games from Wikipedia and Wikidata, or load a ready CSV, then answer questions like releases per year, Japan-only titles and the most common genres with a few lines of pandas.", "url": "https://shop.comradecoding.com/guides/analyse-16-bit-game-releases-with-pandas/", "mainEntityOfPage": "https://shop.comradecoding.com/guides/analyse-16-bit-game-releases-with-pandas/", "datePublished": "2026-10-30", "dateModified": "2026-10-30", "author": {"@type": "Organization", "name": "ComradeCoding"}, "publisher": {"@type": "Organization", "name": "ComradeCoding"}}</script>
+<style>
+:root{--bg:#fbf8f3;--ink:#1d1a16;--muted:#6b645a;--line:#e6dfd3;--red:#b3261e;--card:#fff;--gold:#c99a2e}
+@media (prefers-color-scheme:dark){:root{--bg:#16130f;--ink:#f2ece2;--muted:#a69d90;--line:#2e2922;--red:#ff6b5e;--card:#1e1a15;--gold:#e0b553}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--red)}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+header{border-bottom:1px solid var(--line);padding:20px 0}
+header .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand span{color:var(--red)}
+header nav a{color:var(--muted);text-decoration:none;font-size:15px}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.15;letter-spacing:-.02em;margin:40px 0 8px}
+.lede{color:var(--muted);margin:0 0 32px;max-width:640px}
+h2{font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:40px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.card:hover{border-color:var(--gold)}
+.card img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;border-bottom:1px solid var(--line);background:#fff}
+.card .noimg{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;font:700 22px/1.2 ui-monospace,monospace;color:var(--red);border-bottom:1px solid var(--line);padding:16px;text-align:center}
+.card .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h3{margin:0;font-size:17px;line-height:1.3}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.meta{font-size:13px;color:var(--muted);margin-top:auto;padding-top:6px}
+.meta b{color:var(--ink)}
+.buy{display:inline-block;background:var(--red);color:#fff;text-decoration:none;font-weight:700;padding:12px 20px;border-radius:8px;margin:8px 0 24px}
+.prod{max-width:720px}
+.prod img.hero{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:24px 0}
+.shots img{width:100%;border:1px solid var(--line);border-radius:6px;background:#fff}
+.guide{max-width:720px}
+.guide h2{font-size:22px;text-transform:none;letter-spacing:-.01em;color:var(--ink);margin:36px 0 10px}
+.guide h3{font-size:18px;margin:24px 0 6px}
+.guide li{margin:4px 0}
+code{font:15px/1.4 ui-monospace,Consolas,monospace;background:var(--card);border:1px solid var(--line);border-radius:4px;padding:1px 4px;overflow-wrap:anywhere}
+pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto}
+pre code{border:0;padding:0;background:none;overflow-wrap:normal}
+.cta{background:var(--card);border:1px solid var(--gold);border-radius:10px;padding:16px 18px;margin:32px 0}
+.cta p{margin:0 0 8px}
+.cta .buy{margin:4px 12px 0 0}
+.note{color:var(--muted);font-size:14px;margin-top:32px}
+footer{border-top:1px solid var(--line);margin-top:56px;padding:24px 0;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<header><div class="wrap"><a class="brand" href="/">Comrade<span>Coding</span> shop</a><nav><a href="/guides/">Guides</a> &nbsp; <a href="https://comradecoding.com/">comradecoding.com</a></nav></div></header>
+<main class="wrap">
+<article class="guide">
+<h1>How to Analyse 16-bit Era Game Releases With pandas (Releases per Year, Genre, Region)</h1>
+<p class="lede">Build a table of one console&#x27;s games from Wikipedia and Wikidata, or load a ready CSV, then answer questions like releases per year, Japan-only titles and the most common genres with a few lines of pandas.</p>
+<p>The release history of a console is a good small dataset: a couple of thousand rows, a handful of dates and names per row, and real questions to ask. How many games came out each year? What share never left Japan? Which genres dominated, and did that change over the decade? Here is how to get the data for the Super Nintendo Entertainment System and Super Famicom era (1990 to 2000) yourself, and how to load a cleaned file and get to the questions straight away.</p>
+<h2>Step 1: Where the data is (free)</h2>
+<ul><li>The English Wikipedia article "List of Super Nintendo Entertainment System games" is a big table with title, developer, and a publisher and release date per region. It is under CC BY-SA 4.0.</li><li>Wikidata has an item per game with genre, game mode and series, under CC0, reachable through a SPARQL endpoint.</li></ul>
+<p>Both are public. Scraping the table is the easy part; the hard part is what comes after.</p>
+<h2>Step 2: Scrape the Wikipedia table</h2>
+<pre><code>import pandas as pd
+url = &quot;https://en.wikipedia.org/wiki/List_of_Super_Nintendo_Entertainment_System_games&quot;
+tables = pd.read_html(url)
+games = max(tables, key=len)
+print(games.shape, games.columns.tolist())</code></pre>
+<p><code>read_html</code> needs <code>lxml</code> installed. You get a frame with multi-level columns and dates as strings like <code>June 20, 1994</code>, <code>1994-06</code> or just <code>1994</code>, with footnotes glued on.</p>
+<h2>Step 3: Clean it</h2>
+<p>This is where the hours go:</p>
+<ol><li>Flatten the column names and rename them to <code>title</code>, <code>developers</code>, <code>publisher_jp</code>, <code>release_date_jp</code> and so on.</li><li>Strip footnote markers and bracketed notes from every text cell.</li><li>Normalise dates while keeping their precision. Do not coerce <code>1994</code> to <code>1994-01-01</code>; store it as the string <code>1994</code> and keep a separate <code>first_release_year</code> integer for grouping, or you will invent release days that never existed.</li><li>Split multi-value cells (<code>Capcom / Nintendo</code>) into lists.</li><li>Work out <code>first_release_date</code> and <code>first_release_region</code> as the earliest of the three regional dates, remembering that a year-only date sorts before a full date in the same year.</li><li>Make a stable key per game, slugged from the title with a number added for duplicates.</li></ol>
+<h2>Step 4: Join Wikidata for genres</h2>
+<p>Query the SPARQL endpoint for every item whose platform is the console, with its English label, English Wikipedia article title, genres, game modes and series. Match rows to items by the Wikipedia article the list links to first, then by exact label match where exactly one item fits. Expect about a third of rows to have no match, mostly Japan-only games. Store the Wikidata ID so you can join more later.</p>
+<h2>Step 5: The questions</h2>
+<p>With a clean frame, each question is a line or two:</p>
+<pre><code>df = pd.read_csv(&quot;game-releases-16bit.csv&quot;)   # | separated lists
+
+# Releases per year
+df.groupby(&quot;first_release_year&quot;).size()
+
+# Japan-only titles
+japan_only = df[df[&quot;regions&quot;] == &quot;JP&quot;]
+len(japan_only), len(japan_only) / len(df)
+
+# Most common genres (explode the list field)
+g = df[&quot;genres&quot;].dropna().str.split(&quot; \\| &quot;).explode()
+g.value_counts().head(10)
+
+# Genre share by year
+gy = df.dropna(subset=[&quot;genres&quot;]).assign(genre=lambda d: d[&quot;genres&quot;].str.split(&quot; \\| &quot;)).explode(&quot;genre&quot;)
+pd.crosstab(gy[&quot;first_release_year&quot;], gy[&quot;genre&quot;], normalize=&quot;index&quot;).round(2)
+
+# Publishers with the most North American releases
+df[&quot;publisher_na&quot;].dropna().value_counts().head(10)</code></pre>
+<p>Plot <code>groupby(&quot;first_release_year&quot;).size()</code> as a bar chart and the shape of the decade is obvious at a glance. Add <code>regions</code> as the colour and you can see when releases outside Japan stopped.</p>
+<h2>The ready-made route</h2>
+<p>Steps 2 to 4 are a day of cleaning and matching, and they need redoing whenever the Wikipedia table changes. The 16-bit Console Era Game Releases Dataset is the output of that pipeline, kept up to date: 1,749 retail games for the Super Nintendo Entertainment System and Super Famicom, 1990 to 2000, one row per game, 19 fields, as CSV (UTF-8 with a byte order mark so Excel reads accents, list fields joined with <code> | </code>) and JSON (lists as arrays, missing values as <code>null</code>), with a JSON Schema and a license file. The console is named as a factual reference only; the dataset is not affiliated with Nintendo.</p>
+<p>Fields: <code>release_id</code>, <code>title</code>, <code>alt_titles</code>, <code>developers</code>, a publisher and release date each for JP, NA and PAL, <code>regions</code>, <code>first_release_date</code>, <code>first_release_year</code>, <code>first_release_region</code>, <code>genres</code>, <code>game_modes</code>, <code>series</code>, <code>wikidata_id</code> and <code>wikipedia_article</code>. Dates keep source precision (<code>1994</code>, <code>1994-06</code> or <code>1994-06-20</code>). Coverage: 1,440 Japanese, 717 North American and 528 PAL releases; 1,179 rows joined to Wikidata; 1,084 with at least one genre, 965 with a game mode, 282 with a series. Last refresh 2026-10-29, with a quarterly refresh planned through the same Gumroad download.</p>
+<p>Limits: retail releases only (no unlicensed, promotional, Satellaview or aftermarket titles); genre, game mode and series are missing for about a third of rows, mostly Japan-only games; most North American dates are month precision; and the sources are community-edited, so a date or publisher can be wrong. The data is licensed CC BY-SA 4.0 because the release table comes from Wikipedia under that license: you may use it in personal and commercial work and share it, with credit and under the same license. What you pay for is the cleaning, the region split, the date normalisation, the Wikidata join and the ready-to-load files. It costs $9 on Gumroad.</p>
+<p>The collection scripts and documentation were written with AI assistance (Claude); every row was produced by the scripts from the sources above and checked by an automated validation run.</p>
+<p>16-bit Console Era Game Releases Dataset: <a href="/p/game-releases-16bit-dataset/">product page</a> on this shop, or <a href="https://comradecoding.gumroad.com/l/game-releases-16bit-dataset">get it on Gumroad</a>.</p>
+<aside class="cta"><p><b>16-bit Console Era Game Releases Dataset</b>: The retail games for one 16-bit console (SNES and Super Famicom), 1990 to 2000, from the English Wikipedia list: 1,749 rows with regional dates, publishers and genres.</p>
+<p><a href="/p/game-releases-16bit-dataset/">Product page</a> &nbsp; <a class="buy" href="https://comradecoding.gumroad.com/l/game-releases-16bit-dataset">Get it on Gumroad, $9</a></p></aside>
+<h2>FAQ</h2>
+<h3>Why not store dates as real dates?</h3>
+<p>Because the source often only knows the month or the year. Keep the string with its precision, and derive a year column for grouping. For plotting by month, parse only the rows with at least month precision.</p>
+<h3>Can I join this to sales or review data?</h3>
+<p>Yes, through <code>wikidata_id</code> for anything that carries Wikidata IDs, or through <code>title</code> with care (regional titles differ; <code>alt_titles</code> helps).</p>
+<h3>Why do 570 rows have no genre?</h3>
+<p>They have no matching Wikidata item, usually because they were only released in Japan and have no English Wikipedia article. Treat those genre cells as unknown, not "no genre".</p>
+<h3>Does the CC BY-SA license cover my charts and findings?</h3>
+<p>Charts and conclusions are yours. If you redistribute the data itself, changed or not, keep the credit line and the same license.</p>
+<p class="note">This guide was written with AI (Claude) and checked against the product's documentation.</p>
+<p><a href="/guides/">All guides</a> &nbsp; <a href="/">All products</a></p>
+</article>
+</main>
+<footer><div class="wrap">Small tools and printables by ComradeCoding. Each product is sold on the store linked from its page. <a href="/about/">About and privacy</a></div></footer>
+</body>
+</html>

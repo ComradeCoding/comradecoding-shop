@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Use a 16x16 Pixel Tileset in Godot or Tiled, With Autotiling | ComradeCoding</title>
+<meta name="description" content="Import a 16x16 tile sheet, keep the pixels sharp, paint floors and walls with terrain autotiling in Godot 4 or Tiled, and layer props on top.">
+<link rel="canonical" href="https://shop.comradecoding.com/guides/use-a-16x16-tileset-in-godot-or-tiled/">
+<meta property="og:title" content="How to Use a 16x16 Pixel Tileset in Godot or Tiled, With Autotiling | ComradeCoding">
+<meta property="og:description" content="Import a 16x16 tile sheet, keep the pixels sharp, paint floors and walls with terrain autotiling in Godot 4 or Tiled, and layer props on top.">
+<meta property="og:url" content="https://shop.comradecoding.com/guides/use-a-16x16-tileset-in-godot-or-tiled/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to Use a 16x16 Pixel Tileset in Godot or Tiled, With Autotiling", "description": "Import a 16x16 tile sheet, keep the pixels sharp, paint floors and walls with terrain autotiling in Godot 4 or Tiled, and layer props on top.", "url": "https://shop.comradecoding.com/guides/use-a-16x16-tileset-in-godot-or-tiled/", "mainEntityOfPage": "https://shop.comradecoding.com/guides/use-a-16x16-tileset-in-godot-or-tiled/", "datePublished": "2026-10-30", "dateModified": "2026-10-30", "author": {"@type": "Organization", "name": "ComradeCoding"}, "publisher": {"@type": "Organization", "name": "ComradeCoding"}}</script>
+<style>
+:root{--bg:#fbf8f3;--ink:#1d1a16;--muted:#6b645a;--line:#e6dfd3;--red:#b3261e;--card:#fff;--gold:#c99a2e}
+@media (prefers-color-scheme:dark){:root{--bg:#16130f;--ink:#f2ece2;--muted:#a69d90;--line:#2e2922;--red:#ff6b5e;--card:#1e1a15;--gold:#e0b553}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--red)}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+header{border-bottom:1px solid var(--line);padding:20px 0}
+header .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand span{color:var(--red)}
+header nav a{color:var(--muted);text-decoration:none;font-size:15px}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.15;letter-spacing:-.02em;margin:40px 0 8px}
+.lede{color:var(--muted);margin:0 0 32px;max-width:640px}
+h2{font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:40px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.card:hover{border-color:var(--gold)}
+.card img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;border-bottom:1px solid var(--line);background:#fff}
+.card .noimg{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;font:700 22px/1.2 ui-monospace,monospace;color:var(--red);border-bottom:1px solid var(--line);padding:16px;text-align:center}
+.card .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h3{margin:0;font-size:17px;line-height:1.3}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.meta{font-size:13px;color:var(--muted);margin-top:auto;padding-top:6px}
+.meta b{color:var(--ink)}
+.buy{display:inline-block;background:var(--red);color:#fff;text-decoration:none;font-weight:700;padding:12px 20px;border-radius:8px;margin:8px 0 24px}
+.prod{max-width:720px}
+.prod img.hero{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:24px 0}
+.shots img{width:100%;border:1px solid var(--line);border-radius:6px;background:#fff}
+.guide{max-width:720px}
+.guide h2{font-size:22px;text-transform:none;letter-spacing:-.01em;color:var(--ink);margin:36px 0 10px}
+.guide h3{font-size:18px;margin:24px 0 6px}
+.guide li{margin:4px 0}
+code{font:15px/1.4 ui-monospace,Consolas,monospace;background:var(--card);border:1px solid var(--line);border-radius:4px;padding:1px 4px;overflow-wrap:anywhere}
+pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto}
+pre code{border:0;padding:0;background:none;overflow-wrap:normal}
+.cta{background:var(--card);border:1px solid var(--gold);border-radius:10px;padding:16px 18px;margin:32px 0}
+.cta p{margin:0 0 8px}
+.cta .buy{margin:4px 12px 0 0}
+.note{color:var(--muted);font-size:14px;margin-top:32px}
+footer{border-top:1px solid var(--line);margin-top:56px;padding:24px 0;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<header><div class="wrap"><a class="brand" href="/">Comrade<span>Coding</span> shop</a><nav><a href="/guides/">Guides</a> &nbsp; <a href="https://comradecoding.com/">comradecoding.com</a></nav></div></header>
+<main class="wrap">
+<article class="guide">
+<h1>How to Use a 16x16 Pixel Tileset in Godot or Tiled, With Autotiling</h1>
+<p class="lede">Import a 16x16 tile sheet, keep the pixels sharp, paint floors and walls with terrain autotiling in Godot 4 or Tiled, and layer props on top.</p>
+<p>A tileset is one PNG with many small square pictures on a grid, plus some data that says which tile goes where. For a top-down game at 16x16, the work is in three places: getting the sheet into the engine without blurring it, painting large areas quickly, and keeping walls and water on their own layers so they overlap the floor cleanly. Here is how to do each in Godot 4 and in Tiled, with any 16x16 sheet.</p>
+<h2>Step 1: Keep the pixels sharp</h2>
+<p>Pixel art blurs when the engine scales it with a smooth filter. Fix that before anything else.</p>
+<ul><li><b>Godot 4:</b> Project Settings, Rendering, Textures, set Default Texture Filter to Nearest. Then scale the whole viewport by a whole number (2x, 3x, 4x) with Display, Window, Stretch mode <code>canvas_items</code> and a base size that divides evenly into your screen.</li><li><b>Tiled:</b> View, Zoom, use whole number steps (200%, 300%). Tiled never filters, so the map editor is already sharp.</li><li><b>Any engine:</b> never scale by 1.5x or 2.7x. Pick 2x, 3x or 4x.</li></ul>
+<h2>Step 2: Import the sheet</h2>
+<h3>Godot 4</h3>
+<ol><li>Drop <code>tileset.png</code> into the project. In the Import dock make sure Filter is off (or rely on the project default from step 1).</li><li>Add a <code>TileMapLayer</code> node (or a <code>TileMap</code> in 4.2 and earlier). In the inspector create a new TileSet, set Tile Size to 16 x 16.</li><li>In the TileSet panel at the bottom, add an Atlas, pick <code>tileset.png</code>, and click "Yes" when it offers to create tiles automatically. Delete the transparent slots you do not need.</li></ol>
+<h3>Tiled</h3>
+<ol><li>File, New, New Tileset. Choose "Based on Tileset Image", pick the PNG, tile width and height 16, margin and spacing 0.</li><li>Save it as a <code>.tsx</code> next to the PNG, then add it to a map with 16 x 16 tiles.</li></ol>
+<p>If the pack already ships a <code>.tsx</code>, open that instead and skip the setup.</p>
+<h2>Step 3: Autotile floors, water and walls</h2>
+<p>Painting walls one tile at a time means choosing the right corner piece every time. Autotiling (terrains in Godot, Wang sets in Tiled) does the choosing for you: you paint "wall" and the engine picks the tile whose edges match its neighbours.</p>
+<p>A full set in the common 47-tile "blob" layout covers every arrangement of 8 neighbours, including inner corners. The rule behind it: each neighbour is a bit (N 1, NE 2, E 4, SE 8, S 16, SW 32, W 64, NW 128), a corner bit only counts when both sides next to it are set, and a lookup table turns the resulting mask into a tile index.</p>
+<ul><li><b>Godot 4:</b> in the TileSet panel open Terrain Sets, add a set with mode "Match corners and sides", add a terrain (for example Wall), then paint the terrain peering bits on each of the 47 tiles. Once set up, choose the terrain in the TileMap toolbar and paint. The peering bit painting is the slow part: 47 tiles times 8 bits.</li><li><b>Tiled:</b> select the tileset, open the Wang Sets view, create a set of type Mixed, assign colours to each tile's corners and edges, then use the Terrain Brush on the map. Same work, same payoff.</li><li><b>Your own engine:</b> keep the 256-entry lookup table in code and compute the mask per cell at load time.</li></ul>
+<h2>Step 4: Layer it</h2>
+<p>Put each kind of thing on its own layer: floor at the bottom, then water, moss or other ground features, then walls, then props. Autotile tiles are transparent where the floor should show through, so a wall or pool only looks right over a floor layer. Keep one terrain per layer; most packs have no tiles for two terrains meeting inside one cell.</p>
+<p>Props (doors, chests, torches, stairs) go on the top layer. In Godot, give that layer a higher Z index or put it in a separate TileMapLayer so a character can walk behind tall props if you add any.</p>
+<h2>Step 5: Make the floor less repetitive</h2>
+<p>If the pack gives several floor variants with matching edges, fill the layer with the plain tile and then scatter the others at random. In Godot use Scatter in the TileMap paint tool; in Tiled use the Stamp Brush with Random mode on a selection of floor tiles.</p>
+<h2>The ready-made route</h2>
+<p>Drawing 47 matching tiles per terrain and wiring up the peering bits is most of a day. The Dungeon Pixel Tileset (16x16) does that part. It is 161 tiles at 16x16 on one 256 x 176 sheet: 8 stone floor tiles with matching edges (<code>floor_0</code> wraps), three full 47-tile autotile sets for water pools, moss and walls, and 12 props (doors, chests, torch, stairs up and down, barrel, crate, bones, pot, lever). Everything shares one 26-colour palette, and every pixel is fully opaque or fully transparent.</p>
+<p>It ships with <code>tileset.tsx</code> (a Tiled tileset with one Wang set per autotile group, ready for the Terrain Brush), <code>demo.tmx</code> (a 30 x 17 demo map on layers floor, water, moss, wall and props), <code>tileset.json</code> with the 256-entry lookup table per set for your own engine, and <code>preview.png</code>. Open <code>demo.tmx</code> in Tiled and the layers and brushes are already there.</p>
+<p>Limits: walls are one cell tall with no separate tall wall pieces, there are no tiles for two terrains meeting in one cell, and the props are not animated. It costs $5 or more on itch.io, and the license allows use in any project, commercial or not, with no credit required; you may not resell or redistribute the tiles as assets.</p>
+<p>The floor, brick, water and moss textures and the prop pictures were made with an AI image model (FLUX.2 [klein] 4B, Apache 2.0 open weights) on the seller's own computer, then made to wrap, mapped to the palette, built into autotile sets by script and checked by hand. The pack is tagged "AI Generated" on itch.io.</p>
+<p>Dungeon Pixel Tileset (16x16): <a href="/p/dungeon-pixel-tileset-16x16/">product page</a> on this shop, or <a href="https://comradecoding.itch.io/dungeon-pixel-tileset-16x16">get it on itch.io</a>.</p>
+<aside class="cta"><p><b>Dungeon Pixel Tileset (16x16)</b>: 161 dungeon tiles at 16x16: floor, water, moss and wall autotiles, 12 props, Tiled files and a demo map. AI generated.</p>
+<p><a href="/p/dungeon-pixel-tileset-16x16/">Product page</a> &nbsp; <a class="buy" href="https://comradecoding.itch.io/dungeon-pixel-tileset-16x16">Get it on itch.io, $5 or more</a></p></aside>
+<h2>FAQ</h2>
+<h3>Does the Tiled file work in Godot?</h3>
+<p>Godot 4 does not open <code>.tmx</code> directly, but the free "YATI" importer add-on does, including Wang sets as terrains. Or build the TileSet in Godot from <code>tileset.png</code> using the lookup table in <code>tileset.json</code>.</p>
+<h3>Can I use it in Unity, GameMaker or RPG Maker?</h3>
+<p>The PNG works anywhere that reads a 16x16 grid. Unity's Tilemap has Rule Tiles for autotiling; GameMaker has its own autotile editor with a 47-tile mode; RPG Maker expects its own autotile layout, so the blob set needs rearranging there.</p>
+<h3>How do I scale the sheet up for a 48 pixel tile game?</h3>
+<p>Do not scale the PNG. Keep the tiles at 16x16 and scale the camera or canvas by 3x with nearest-neighbour filtering. The result is the same on screen and the files stay small.</p>
+<p class="note">This guide was written with AI (Claude) and checked against the product's documentation.</p>
+<p><a href="/guides/">All guides</a> &nbsp; <a href="/">All products</a></p>
+</article>
+</main>
+<footer><div class="wrap">Small tools and printables by ComradeCoding. Each product is sold on the store linked from its page. <a href="/about/">About and privacy</a></div></footer>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Set 4K Wallpapers Across Monitors and Phones Without Stretching | ComradeCoding</title>
+<meta name="description" content="Match wallpaper sizes to your screens, set a different picture on each monitor, make a lock screen and home screen pair on a phone, and avoid blur and cropping.">
+<link rel="canonical" href="https://shop.comradecoding.com/guides/set-4k-wallpapers-on-monitors-and-phones/">
+<meta property="og:title" content="How to Set 4K Wallpapers Across Monitors and Phones Without Stretching | ComradeCoding">
+<meta property="og:description" content="Match wallpaper sizes to your screens, set a different picture on each monitor, make a lock screen and home screen pair on a phone, and avoid blur and cropping.">
+<meta property="og:url" content="https://shop.comradecoding.com/guides/set-4k-wallpapers-on-monitors-and-phones/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to Set 4K Wallpapers Across Monitors and Phones Without Stretching", "description": "Match wallpaper sizes to your screens, set a different picture on each monitor, make a lock screen and home screen pair on a phone, and avoid blur and cropping.", "url": "https://shop.comradecoding.com/guides/set-4k-wallpapers-on-monitors-and-phones/", "mainEntityOfPage": "https://shop.comradecoding.com/guides/set-4k-wallpapers-on-monitors-and-phones/", "datePublished": "2026-10-30", "dateModified": "2026-10-30", "author": {"@type": "Organization", "name": "ComradeCoding"}, "publisher": {"@type": "Organization", "name": "ComradeCoding"}}</script>
+<style>
+:root{--bg:#fbf8f3;--ink:#1d1a16;--muted:#6b645a;--line:#e6dfd3;--red:#b3261e;--card:#fff;--gold:#c99a2e}
+@media (prefers-color-scheme:dark){:root{--bg:#16130f;--ink:#f2ece2;--muted:#a69d90;--line:#2e2922;--red:#ff6b5e;--card:#1e1a15;--gold:#e0b553}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--red)}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+header{border-bottom:1px solid var(--line);padding:20px 0}
+header .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand span{color:var(--red)}
+header nav a{color:var(--muted);text-decoration:none;font-size:15px}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.15;letter-spacing:-.02em;margin:40px 0 8px}
+.lede{color:var(--muted);margin:0 0 32px;max-width:640px}
+h2{font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:40px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.card:hover{border-color:var(--gold)}
+.card img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;border-bottom:1px solid var(--line);background:#fff}
+.card .noimg{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;font:700 22px/1.2 ui-monospace,monospace;color:var(--red);border-bottom:1px solid var(--line);padding:16px;text-align:center}
+.card .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h3{margin:0;font-size:17px;line-height:1.3}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.meta{font-size:13px;color:var(--muted);margin-top:auto;padding-top:6px}
+.meta b{color:var(--ink)}
+.buy{display:inline-block;background:var(--red);color:#fff;text-decoration:none;font-weight:700;padding:12px 20px;border-radius:8px;margin:8px 0 24px}
+.prod{max-width:720px}
+.prod img.hero{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:24px 0}
+.shots img{width:100%;border:1px solid var(--line);border-radius:6px;background:#fff}
+.guide{max-width:720px}
+.guide h2{font-size:22px;text-transform:none;letter-spacing:-.01em;color:var(--ink);margin:36px 0 10px}
+.guide h3{font-size:18px;margin:24px 0 6px}
+.guide li{margin:4px 0}
+code{font:15px/1.4 ui-monospace,Consolas,monospace;background:var(--card);border:1px solid var(--line);border-radius:4px;padding:1px 4px;overflow-wrap:anywhere}
+pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto}
+pre code{border:0;padding:0;background:none;overflow-wrap:normal}
+.cta{background:var(--card);border:1px solid var(--gold);border-radius:10px;padding:16px 18px;margin:32px 0}
+.cta p{margin:0 0 8px}
+.cta .buy{margin:4px 12px 0 0}
+.note{color:var(--muted);font-size:14px;margin-top:32px}
+footer{border-top:1px solid var(--line);margin-top:56px;padding:24px 0;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<header><div class="wrap"><a class="brand" href="/">Comrade<span>Coding</span> shop</a><nav><a href="/guides/">Guides</a> &nbsp; <a href="https://comradecoding.com/">comradecoding.com</a></nav></div></header>
+<main class="wrap">
+<article class="guide">
+<h1>How to Set 4K Wallpapers Across Monitors and Phones Without Stretching</h1>
+<p class="lede">Match wallpaper sizes to your screens, set a different picture on each monitor, make a lock screen and home screen pair on a phone, and avoid blur and cropping.</p>
+<p>A wallpaper looks wrong for one of three reasons: it is smaller than the screen and gets blurred up, it is the wrong shape and gets stretched, or it is the right shape but the phone crops the part you liked. All three are avoidable if you check your screen sizes first and pick files that match. Here is how to do it on Windows, macOS, Android and iPhone, with any set of pictures.</p>
+<h2>Step 1: Find out what your screens actually are</h2>
+<ul><li><b>Windows:</b> Settings, System, Display. Each monitor shows its resolution; the common ones are 1920 x 1080, 2560 x 1440 and 3840 x 2160 (4K). All three are 16:9.</li><li><b>macOS:</b> System Settings, Displays. A 4K monitor often runs "scaled" to look like 1920 x 1080, but the wallpaper is still rendered at the full 3840 x 2160, so use the full size file.</li><li><b>Phones:</b> most current Android phones are around 1080 x 2400 or 1440 x 3200 (both near 20:9). Recent iPhones are close to 19.5:9. Settings, General, About on an iPhone, or Settings, About phone on Android, shows the exact size.</li></ul>
+<p>Write the sizes down. A wallpaper should be at least as large as the screen in both directions; larger is fine, smaller gets upscaled and goes soft.</p>
+<h2>Step 2: Set a different wallpaper on each monitor</h2>
+<h3>Windows 11</h3>
+<ol><li>Put the pictures in one folder.</li><li>Settings, Personalization, Background, Personalize your background: Picture. Browse to the picture.</li><li>Right-click the picture thumbnail and choose "Set for monitor 1", "Set for monitor 2" and so on.</li><li>Under "Choose a fit", pick Fill. Fill keeps the aspect ratio and crops the overflow; Stretch distorts, Fit leaves bars, Span treats all monitors as one wide canvas.</li></ol>
+<h3>macOS</h3>
+<p>System Settings, Wallpaper shows a section per connected display. Click each one and choose its picture. "Fill Screen" is the equivalent of Fill.</p>
+<h3>Mixed sizes</h3>
+<p>With one 4K monitor and one 1080p monitor, a 3840 x 2160 file is right for both: the smaller monitor just scales it down, which keeps it sharp. The other way around (a 1080p file on a 4K screen) is what looks blurry.</p>
+<h2>Step 3: Ultrawide and vertical monitors</h2>
+<p>A 16:9 picture on a 21:9 or 32:9 ultrawide gets cropped top and bottom with Fill, or stretched with Stretch. Neither is great. Options: use Fit with a background colour matched to the picture's edges, pick a picture with sky at the top and ground at the bottom you can afford to lose, or look for a native ultrawide file. For a monitor turned vertical, phone wallpapers (9:20) are closer in shape than desktop ones.</p>
+<h2>Step 4: Phones: lock screen and home screen</h2>
+<p>Phones crop vertically, so a phone file should be taller than the screen, around 9:20. A desktop 16:9 picture set on a phone shows a thin slice of the middle.</p>
+<ul><li><b>Android:</b> open the file in Photos or Gallery, menu, "Use as" or "Set as wallpaper", then choose Home screen, Lock screen or Both. On Pixel and Samsung you can pinch to adjust the crop before saving.</li><li><b>iPhone:</b> save to Photos, open the picture, tap Share, "Use as Wallpaper". iOS 16 and later lets you pair a lock screen with a different home screen picture; pick the second one when asked. Turn off "Perspective Zoom" if the picture seems to drift.</li></ul>
+<p>Keep the subject in the middle third of a phone picture: the clock sits over the top and the dock over the bottom.</p>
+<h2>Step 5: Rotate them</h2>
+<p>Windows: Background, "Slideshow", choose the folder, set the interval and tick "Shuffle". macOS: in Wallpaper, choose a folder under "Add Folder or Album" and set "Change picture" to a time. Android and iPhone have rotation through third-party apps or, on iOS 16 and later, Photo Shuffle on the lock screen.</p>
+<h2>The ready-made route</h2>
+<p>Doing the above with your own photos works well, and free wallpaper sites have plenty. What takes time is finding a set where the desktop and phone versions match and are already the right shapes. The Fantasy Landscape Wallpaper Pack is 20 original fantasy landscapes, each as a 3840 x 2160 desktop JPEG (16:9) and a 1440 x 3200 phone JPEG (9:20), so 40 files. Scenes are floating islands, ruins, old forests, caverns, sea cliffs, deserts, mountains and night skies, in one painted style with low sun or moonlight, soft haze and a teal, slate blue, amber and rose palette. No people, no text, no logos, no metadata.</p>
+<p>Files are named by number, scene and size, and the two versions of a scene share the number, so a matching desktop and phone pair is easy to find. JPEG quality is 95 with full colour resolution.</p>
+<p>Limits: the pictures were drawn at about 1 megapixel and upscaled 4 times, so fine texture looks soft at 100 percent zoom. The desktop and phone versions are separate drawings from the same description and seed, close but not identical. Phone files suit tall screens around 20:9; desktop files suit 16:9, and ultrawides will crop or stretch them as described above. It costs $3 on Gumroad, for personal use as wallpapers on your own devices (no resale, sharing or use in other products).</p>
+<p>These images were made with AI image tools: FLUX.2 [klein] 4B, upscaled with Real-ESRGAN, on the seller's own computer; every image was picked by hand and the ones with errors removed.</p>
+<p>Fantasy Landscape Wallpaper Pack: <a href="/p/fantasy-landscape-wallpapers/">product page</a> on this shop, or <a href="https://comradecoding.gumroad.com/l/fantasy-landscape-wallpapers">get it on Gumroad</a>.</p>
+<aside class="cta"><p><b>Fantasy Landscape Wallpaper Pack: 20 Desktop + Phone (4K)</b>: 20 original fantasy landscape wallpapers, each as a 3840 x 2160 desktop and a 1440 x 3200 phone JPEG. No people, no text.</p>
+<p><a href="/p/fantasy-landscape-wallpapers/">Product page</a> &nbsp; <a class="buy" href="https://comradecoding.gumroad.com/l/fantasy-landscape-wallpapers">Get it on Gumroad, $3</a></p></aside>
+<h2>FAQ</h2>
+<h3>My 4K wallpaper still looks soft. Why?</h3>
+<p>Check the file is really 3840 x 2160 (right-click, Properties, Details on Windows). Then check the fit mode is Fill, not Stretch. If it is both and still soft, the picture itself was upscaled, which no setting fixes.</p>
+<h3>Can I use a desktop file on my phone?</h3>
+<p>You can, but you will see a narrow slice. Use the phone version where one exists.</p>
+<h3>Does a wallpaper slow the computer down?</h3>
+<p>A static picture, no. Live or animated wallpapers use the GPU constantly; plain JPEG files cost nothing after they are set.</p>
+<p class="note">This guide was written with AI (Claude) and checked against the product's documentation.</p>
+<p><a href="/guides/">All guides</a> &nbsp; <a href="/">All products</a></p>
+</article>
+</main>
+<footer><div class="wrap">Small tools and printables by ComradeCoding. Each product is sold on the store linked from its page. <a href="/about/">About and privacy</a></div></footer>
+</body>
+</html>

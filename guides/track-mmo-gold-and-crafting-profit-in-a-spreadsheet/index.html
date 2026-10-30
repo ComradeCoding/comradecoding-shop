@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Track MMO Gold, Crafting Cooldowns and Auction Profit in a Spreadsheet | ComradeCoding</title>
+<meta name="description" content="Set up a gold log, a cooldown timer and an auction sales sheet that work out net and profit after fees, for every character on your account, in Google Sheets or Excel.">
+<link rel="canonical" href="https://shop.comradecoding.com/guides/track-mmo-gold-and-crafting-profit-in-a-spreadsheet/">
+<meta property="og:title" content="How to Track MMO Gold, Crafting Cooldowns and Auction Profit in a Spreadsheet | ComradeCoding">
+<meta property="og:description" content="Set up a gold log, a cooldown timer and an auction sales sheet that work out net and profit after fees, for every character on your account, in Google Sheets or Excel.">
+<meta property="og:url" content="https://shop.comradecoding.com/guides/track-mmo-gold-and-crafting-profit-in-a-spreadsheet/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to Track MMO Gold, Crafting Cooldowns and Auction Profit in a Spreadsheet", "description": "Set up a gold log, a cooldown timer and an auction sales sheet that work out net and profit after fees, for every character on your account, in Google Sheets or Excel.", "url": "https://shop.comradecoding.com/guides/track-mmo-gold-and-crafting-profit-in-a-spreadsheet/", "mainEntityOfPage": "https://shop.comradecoding.com/guides/track-mmo-gold-and-crafting-profit-in-a-spreadsheet/", "datePublished": "2026-10-30", "dateModified": "2026-10-30", "author": {"@type": "Organization", "name": "ComradeCoding"}, "publisher": {"@type": "Organization", "name": "ComradeCoding"}}</script>
+<style>
+:root{--bg:#fbf8f3;--ink:#1d1a16;--muted:#6b645a;--line:#e6dfd3;--red:#b3261e;--card:#fff;--gold:#c99a2e}
+@media (prefers-color-scheme:dark){:root{--bg:#16130f;--ink:#f2ece2;--muted:#a69d90;--line:#2e2922;--red:#ff6b5e;--card:#1e1a15;--gold:#e0b553}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--red)}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+header{border-bottom:1px solid var(--line);padding:20px 0}
+header .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand span{color:var(--red)}
+header nav a{color:var(--muted);text-decoration:none;font-size:15px}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.15;letter-spacing:-.02em;margin:40px 0 8px}
+.lede{color:var(--muted);margin:0 0 32px;max-width:640px}
+h2{font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:40px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.card:hover{border-color:var(--gold)}
+.card img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;border-bottom:1px solid var(--line);background:#fff}
+.card .noimg{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;font:700 22px/1.2 ui-monospace,monospace;color:var(--red);border-bottom:1px solid var(--line);padding:16px;text-align:center}
+.card .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h3{margin:0;font-size:17px;line-height:1.3}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.meta{font-size:13px;color:var(--muted);margin-top:auto;padding-top:6px}
+.meta b{color:var(--ink)}
+.buy{display:inline-block;background:var(--red);color:#fff;text-decoration:none;font-weight:700;padding:12px 20px;border-radius:8px;margin:8px 0 24px}
+.prod{max-width:720px}
+.prod img.hero{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:24px 0}
+.shots img{width:100%;border:1px solid var(--line);border-radius:6px;background:#fff}
+.guide{max-width:720px}
+.guide h2{font-size:22px;text-transform:none;letter-spacing:-.01em;color:var(--ink);margin:36px 0 10px}
+.guide h3{font-size:18px;margin:24px 0 6px}
+.guide li{margin:4px 0}
+code{font:15px/1.4 ui-monospace,Consolas,monospace;background:var(--card);border:1px solid var(--line);border-radius:4px;padding:1px 4px;overflow-wrap:anywhere}
+pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto}
+pre code{border:0;padding:0;background:none;overflow-wrap:normal}
+.cta{background:var(--card);border:1px solid var(--gold);border-radius:10px;padding:16px 18px;margin:32px 0}
+.cta p{margin:0 0 8px}
+.cta .buy{margin:4px 12px 0 0}
+.note{color:var(--muted);font-size:14px;margin-top:32px}
+footer{border-top:1px solid var(--line);margin-top:56px;padding:24px 0;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<header><div class="wrap"><a class="brand" href="/">Comrade<span>Coding</span> shop</a><nav><a href="/guides/">Guides</a> &nbsp; <a href="https://comradecoding.com/">comradecoding.com</a></nav></div></header>
+<main class="wrap">
+<article class="guide">
+<h1>How to Track MMO Gold, Crafting Cooldowns and Auction Profit in a Spreadsheet</h1>
+<p class="lede">Set up a gold log, a cooldown timer and an auction sales sheet that work out net and profit after fees, for every character on your account, in Google Sheets or Excel.</p>
+<p>If you play an online game with several characters, the question "am I actually making gold?" is hard to answer from memory. Gold moves between alts, crafting materials cost gold before the item sells, and the auction house takes a cut. A spreadsheet answers it in three tables: a log of every gold change, a list of crafting cooldowns, and a list of auction sales with the fee and material cost taken off. Here is how to build that from a blank sheet, then a ready-made version.</p>
+<h2>Step 1: A Characters tab with a starting balance</h2>
+<p>One row per character: name, server, main or alt, and <b>starting gold</b>, the amount it had on the day you began tracking. You never type current gold again; the sheet works it out as starting gold plus everything logged since. If you type current gold by hand, the log and the balance will drift apart within a week.</p>
+<h2>Step 2: A Gold log</h2>
+<p>One row per gold change that is not an auction sale: quest rewards, loot sold to a vendor, repairs, materials bought, gold sent to an alt. Columns: date, character, category, amount, note. Amount is positive for gold in and negative for gold out. A transfer between two of your characters is two rows, minus on one and plus on the other, so the total across the account does not change.</p>
+<p>Add a helper column for the month, <code>=DATE(YEAR(A2),MONTH(A2),1)</code>, so you can total by month later. Use data validation to make the character column a dropdown from the Characters tab; typos in names are what break SUMIFS.</p>
+<h2>Step 3: Crafting cooldowns</h2>
+<p>One row per cooldown: character, recipe, cooldown hours, last used (date and time). Then:</p>
+<pre><code>Ready at   = last_used + cooldown_hours / 24
+Status     = IF(ready_at &lt;= NOW(), &quot;Ready&quot;, &quot;Waiting&quot;)
+Hours left = MAX(0, ROUND((ready_at - NOW()) * 24, 1))</code></pre>
+<p><code>NOW()</code> only updates when the sheet recalculates (any edit, or F9 in Excel), so Hours left is a snapshot, not a live clock. That is fine for a glance before logging in.</p>
+<h2>Step 4: Auction sales with fee and profit</h2>
+<p>One row per listing: date listed, character, item, quantity, price each, material cost for the whole row, status (Listed, Sold, Expired, Cancelled), date sold. Put your game's auction fee in one cell as a fraction (0.05 for 5 percent) and refer to it, so changing it later fixes every row.</p>
+<pre><code>Sale total = quantity * price_each
+Fee        = IF(status=&quot;Sold&quot;, ROUND(sale_total * fee, 2), &quot;&quot;)
+Net        = IF(status=&quot;Sold&quot;, sale_total - fee, &quot;&quot;)
+Profit     = IF(status=&quot;Sold&quot;, net - material_cost, &quot;&quot;)</code></pre>
+<p>Only Sold rows count. Expired and Cancelled rows stay as a record but add nothing.</p>
+<p><b>Do not count materials twice.</b> If you bought the materials, log the purchase on the Gold log as a negative amount (that is real gold leaving). The material cost column on the sales tab is only for working out profit; it must not feed into the balance.</p>
+<h2>Step 5: Current gold and a summary</h2>
+<p>On the Characters tab:</p>
+<pre><code>Gold log total = SUMIFS(GoldLog!Amount, GoldLog!Character, A2)
+Auction net    = SUMIFS(Sales!Net, Sales!Character, A2, Sales!Status, &quot;Sold&quot;)
+Current gold   = starting_gold + gold_log_total + auction_net</code></pre>
+<p>Then a Summary tab with total gold across all characters, gold in and gold out, auction sales total, fees paid and profit, average profit per sale, and a 12 month table using the month helper column. A bar chart of current gold per character shows at a glance which alt is the bank.</p>
+<h2>The ready-made route</h2>
+<p>That is about an afternoon of formulas and dropdowns, plus testing that the samples add up. The MMO Gold and Crafting Tracker is that sheet already built: one <code>.xlsx</code> file with seven tabs (Start here, Characters with 50 rows, Gold log, Crafting cooldowns and Auction sales with 2,000 rows each, Summary and Lists). It uses only functions that Excel, LibreOffice and Google Sheets all have (SUM, SUMIFS, COUNTIFS, AVERAGEIFS, IF, ROUND, NOW and so on), no macros.</p>
+<p>Current gold is starting gold plus the gold log plus sold auctions, red when below zero. Cooldowns show Ready or Waiting with hours left. Auction rows give fee, net and profit from one fee cell on the Lists tab. Summary has account totals, a per character table for the first 10 characters, a 12 month table of gold log net and auction profit, and two bar charts. It ships with 5 sample characters marked "(delete me)" and the exact cells to clear are listed on the Start here tab.</p>
+<p>It does not connect to any game or add-on, has no live prices and no game data; everything is typed by you. The per character table shows the first 10 characters (totals include all 50), and the Summary protection is lost in Google Sheets. It costs $5 on Gumroad, one buyer, personal use.</p>
+<p>The formulas, layout and instructions were written with AI assistance (Claude) and checked by the seller, including an import into Google Sheets where the totals matched the test values.</p>
+<p>MMO Gold and Crafting Tracker: <a href="/p/mmo-gold-and-crafting-tracker/">product page</a> on this shop, or <a href="https://comradecoding.gumroad.com/l/mmo-gold-and-crafting-tracker">get it on Gumroad</a>.</p>
+<aside class="cta"><p><b>MMO Gold and Crafting Tracker (Google Sheets and Excel)</b>: Track gold for up to 50 characters, crafting cooldowns and auction profit. One .xlsx file for Excel; imports into Google Sheets.</p>
+<p><a href="/p/mmo-gold-and-crafting-tracker/">Product page</a> &nbsp; <a class="buy" href="https://comradecoding.gumroad.com/l/mmo-gold-and-crafting-tracker">Get it on Gumroad, $5</a></p></aside>
+<h2>FAQ</h2>
+<h3>How do I get the .xlsx into Google Sheets?</h3>
+<p>In Google Drive, New, File upload, open the file, then File, Save as Google Sheets. Set your time zone under File, Settings so the cooldown clock is right.</p>
+<h3>Why do the formulas show blank in Excel?</h3>
+<p>A yellow "Protected View" bar at the top means Excel has not calculated yet. Click "Enable Editing".</p>
+<h3>My game has a listing deposit on expired auctions. Where does that go?</h3>
+<p>On the Gold log as a negative amount with category Other. The fee cell only covers the percentage cut on sales.</p>
+<h3>Can I track more than one game?</h3>
+<p>Make a copy of the file per game. Fees and cooldowns differ, so one file per game is cleaner than a game column.</p>
+<p class="note">This guide was written with AI (Claude) and checked against the product's documentation.</p>
+<p><a href="/guides/">All guides</a> &nbsp; <a href="/">All products</a></p>
+</article>
+</main>
+<footer><div class="wrap">Small tools and printables by ComradeCoding. Each product is sold on the store linked from its page. <a href="/about/">About and privacy</a></div></footer>
+</body>
+</html>
