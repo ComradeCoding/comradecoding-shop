@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Give an AI Agent Web Reading Tools with MCP | ComradeCoding</title>
+<meta name="description" content="Let Claude, Cursor or your own agent read web pages as Markdown, PDFs as text, feed items and sitemap URLs through one MCP server, self-hosted or pay per call.">
+<link rel="canonical" href="https://shop.comradecoding.com/guides/give-an-ai-agent-web-reading-tools-with-mcp/">
+<meta property="og:title" content="How to Give an AI Agent Web Reading Tools with MCP | ComradeCoding">
+<meta property="og:description" content="Let Claude, Cursor or your own agent read web pages as Markdown, PDFs as text, feed items and sitemap URLs through one MCP server, self-hosted or pay per call.">
+<meta property="og:url" content="https://shop.comradecoding.com/guides/give-an-ai-agent-web-reading-tools-with-mcp/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to Give an AI Agent Web Reading Tools with MCP", "description": "Let Claude, Cursor or your own agent read web pages as Markdown, PDFs as text, feed items and sitemap URLs through one MCP server, self-hosted or pay per call.", "url": "https://shop.comradecoding.com/guides/give-an-ai-agent-web-reading-tools-with-mcp/", "mainEntityOfPage": "https://shop.comradecoding.com/guides/give-an-ai-agent-web-reading-tools-with-mcp/", "datePublished": "2026-10-30", "dateModified": "2026-10-30", "author": {"@type": "Organization", "name": "ComradeCoding"}, "publisher": {"@type": "Organization", "name": "ComradeCoding"}}</script>
+<style>
+:root{--bg:#fbf8f3;--ink:#1d1a16;--muted:#6b645a;--line:#e6dfd3;--red:#b3261e;--card:#fff;--gold:#c99a2e}
+@media (prefers-color-scheme:dark){:root{--bg:#16130f;--ink:#f2ece2;--muted:#a69d90;--line:#2e2922;--red:#ff6b5e;--card:#1e1a15;--gold:#e0b553}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--red)}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+header{border-bottom:1px solid var(--line);padding:20px 0}
+header .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand span{color:var(--red)}
+header nav a{color:var(--muted);text-decoration:none;font-size:15px}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.15;letter-spacing:-.02em;margin:40px 0 8px}
+.lede{color:var(--muted);margin:0 0 32px;max-width:640px}
+h2{font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:40px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.card:hover{border-color:var(--gold)}
+.card img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;border-bottom:1px solid var(--line);background:#fff}
+.card .noimg{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;font:700 22px/1.2 ui-monospace,monospace;color:var(--red);border-bottom:1px solid var(--line);padding:16px;text-align:center}
+.card .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h3{margin:0;font-size:17px;line-height:1.3}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.meta{font-size:13px;color:var(--muted);margin-top:auto;padding-top:6px}
+.meta b{color:var(--ink)}
+.buy{display:inline-block;background:var(--red);color:#fff;text-decoration:none;font-weight:700;padding:12px 20px;border-radius:8px;margin:8px 0 24px}
+.prod{max-width:720px}
+.prod img.hero{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:24px 0}
+.shots img{width:100%;border:1px solid var(--line);border-radius:6px;background:#fff}
+.guide{max-width:720px}
+.guide h2{font-size:22px;text-transform:none;letter-spacing:-.01em;color:var(--ink);margin:36px 0 10px}
+.guide h3{font-size:18px;margin:24px 0 6px}
+.guide li{margin:4px 0}
+code{font:15px/1.4 ui-monospace,Consolas,monospace;background:var(--card);border:1px solid var(--line);border-radius:4px;padding:1px 4px;overflow-wrap:anywhere}
+pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto}
+pre code{border:0;padding:0;background:none;overflow-wrap:normal}
+.cta{background:var(--card);border:1px solid var(--gold);border-radius:10px;padding:16px 18px;margin:32px 0}
+.cta p{margin:0 0 8px}
+.cta .buy{margin:4px 12px 0 0}
+.note{color:var(--muted);font-size:14px;margin-top:32px}
+footer{border-top:1px solid var(--line);margin-top:56px;padding:24px 0;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<header><div class="wrap"><a class="brand" href="/">Comrade<span>Coding</span> shop</a><nav><a href="/guides/">Guides</a> &nbsp; <a href="https://comradecoding.com/">comradecoding.com</a></nav></div></header>
+<main class="wrap">
+<article class="guide">
+<h1>How to Give an AI Agent Web Reading Tools with MCP</h1>
+<p class="lede">Let Claude, Cursor or your own agent read web pages as Markdown, PDFs as text, feed items and sitemap URLs through one MCP server, self-hosted or pay per call.</p>
+<p>An agent that can only see what you paste into the chat is stuck the moment it needs a docs page, a PDF report or this week's blog posts. The Model Context Protocol (MCP) is the common way to hand an agent tools: a server lists its tools, the agent calls them with JSON arguments and gets JSON back. Most coding assistants and agent frameworks speak it now.</p>
+<p>The four tools an agent asks for most often are: read a web page as clean text, read a PDF, read a feed, and list a site's pages. Here is how to provide them yourself, and the hosted route when you would rather not run a server.</p>
+<h2>Option 1: Write a small MCP server</h2>
+<p>The official Python SDK makes a tool out of a decorated function. Install it with <code>pip install mcp trafilatura pypdf</code>, then:</p>
+<pre><code>from mcp.server.fastmcp import FastMCP
+import trafilatura, io, urllib.request
+from pypdf import PdfReader
+
+mcp = FastMCP(&quot;web-reader&quot;)
+
+@mcp.tool()
+def url_to_markdown(url: str) -&gt; str:
+    &quot;&quot;&quot;Main text of a public web page as Markdown.&quot;&quot;&quot;
+    html = trafilatura.fetch_url(url)
+    return trafilatura.extract(html, output_format=&quot;markdown&quot;) or &quot;&quot;
+
+@mcp.tool()
+def pdf_to_text(url: str, max_pages: int = 50) -&gt; str:
+    &quot;&quot;&quot;Plain text of a PDF at a URL.&quot;&quot;&quot;
+    data = urllib.request.urlopen(url, timeout=60).read()
+    reader = PdfReader(io.BytesIO(data))
+    return &quot;\n\n&quot;.join(p.extract_text() or &quot;&quot; for p in reader.pages[:max_pages])
+
+mcp.run()</code></pre>
+<p>Point your client at the script as a stdio server and the two tools appear. Add <code>feedparser</code> for feeds and a sitemap walker for URL lists and you have the full set.</p>
+<h2>What the small server does not do</h2>
+<p>Before you let an agent loose on the open web with it, you will want to add:</p>
+<ul><li><b>robots.txt checks</b> and a pause between requests to the same host, so the agent does not get your IP blocked.</li><li><b>Private address blocking.</b> An agent fed a link to <code>localhost</code>, <code>169.254.169.254</code> or <code>10.0.0.1</code> would otherwise read your own network.</li><li><b>Size and time caps</b> per call, so one 200 MB PDF or a page with a million nested tags does not hang the server.</li><li><b>Encoding and content type handling</b>, including PDFs served as <code>application/octet-stream</code>.</li><li><b>Clear error messages</b> the agent can act on (<code>Disallowed by robots.txt</code>, <code>This URL is a PDF; use pdf_to_text</code>).</li><li><b>Hosting</b> somewhere reachable when the agent runs in the cloud, not only on your laptop.</li></ul>
+<h2>Option 2: Connect to a hosted server</h2>
+<p>Web to Text MCP Server, an Apify actor, provides the same four tools over Streamable HTTP, with the checks above built in:</p>
+<ul><li><code>url_to_markdown</code>: main text of a page as Markdown, with <code>title</code>, <code>description</code>, <code>language</code> and <code>word_count</code>. Arguments: <code>url</code>, <code>max_chars</code>, <code>include_links</code>.</li><li><code>pdf_to_text</code>: text of a PDF up to 20 MB, with <code>page_count</code>, <code>title</code>, <code>author</code> and dates. Arguments: <code>url</code>, <code>max_pages</code>, <code>max_chars</code>.</li><li><code>feed_items</code>: the newest items of an RSS, Atom or JSON feed, each with its text as Markdown. Arguments: <code>url</code>, <code>max_items</code>, <code>include_content</code>, <code>max_chars_per_item</code>.</li><li><code>sitemap_urls</code>: a site's page URLs from its sitemaps, up to 5,000 per call. Arguments: <code>url</code>, <code>max_urls</code>, <code>max_sitemaps</code>, <code>url_contains</code>.</li></ul>
+<p>Add it to a client config with your Apify API token as a bearer header:</p>
+<pre><code>{
+  &quot;mcpServers&quot;: {
+    &quot;web-to-text&quot;: {
+      &quot;url&quot;: &quot;https://comradecoding--web-to-text-mcp.apify.actor/mcp&quot;,
+      &quot;headers&quot;: { &quot;Authorization&quot;: &quot;Bearer YOUR_APIFY_TOKEN&quot; }
+    }
+  }
+}</code></pre>
+<p>Clients that only run local stdio servers can bridge with <code>npx mcp-remote https://comradecoding--web-to-text-mcp.apify.actor/mcp --header &quot;Authorization: Bearer YOUR_APIFY_TOKEN&quot;</code>. If your agent already uses Apify's own MCP server, the tools also show up through <code>https://mcp.apify.com?tools=comradecoding/web-to-text-mcp</code>.</p>
+<p>To call a tool from your own Python code without an MCP client, send the JSON-RPC request directly. The server is stateless and answers with JSON:</p>
+<pre><code>import requests
+
+r = requests.post(
+    &quot;https://comradecoding--web-to-text-mcp.apify.actor/mcp&quot;,
+    headers={&quot;Authorization&quot;: &quot;Bearer YOUR_APIFY_TOKEN&quot;,
+             &quot;Accept&quot;: &quot;application/json, text/event-stream&quot;},
+    json={&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;id&quot;: 1, &quot;method&quot;: &quot;tools/call&quot;,
+          &quot;params&quot;: {&quot;name&quot;: &quot;url_to_markdown&quot;,
+                     &quot;arguments&quot;: {&quot;url&quot;: &quot;https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404&quot;}}},
+)
+result = r.json()[&quot;result&quot;]
+print(result[&quot;structuredContent&quot;][&quot;title&quot;])
+print(result[&quot;structuredContent&quot;][&quot;markdown&quot;][:500])</code></pre>
+<p>Pricing is per successful call: $0.005 for <code>url_to_markdown</code> and <code>pdf_to_text</code>, $0.002 for <code>feed_items</code> and <code>sitemap_urls</code>. 1,000 pages is about $5; 1,000 feed checks about $2. Failed calls (bad arguments, robots.txt refusals, HTTP errors, size or time limits) return a plain error and are free, as are <code>initialize</code>, <code>tools/list</code> and <code>ping</code>.</p>
+<p>Its limits: public pages only, no logins, cookies or JavaScript rendering. No OCR, so a scanned PDF returns <code>has_text: false</code>. Pages up to 5 MB, PDFs up to 20 MB, feeds up to 10 MB. <code>feed_items</code> returns what the feed carries; call <code>url_to_markdown</code> on an item's <code>url</code> for the full article. Sites asking for a crawl delay over 10 seconds are skipped.</p>
+<aside class="cta"><p><b>Web to Text MCP Server</b>: MCP server with four tools: web page to Markdown, PDF to text, feed items and sitemap URLs. You pay only for calls that work. (125)</p>
+<p><a href="/p/web-to-text-mcp/">Product page</a> &nbsp; <a class="buy" href="https://apify.com/comradecoding/web-to-text-mcp">Get it on Apify, $0.002 to $0.005 per call</a></p></aside>
+<h2>FAQ</h2>
+<h3>Which clients can use it?</h3>
+<p>Any MCP client that supports Streamable HTTP with custom headers, and stdio-only clients through <code>mcp-remote</code>. The config block above is the shape most clients use; check your client's docs for the file location.</p>
+<h3>How is this different from the batch actors?</h3>
+<p>The MCP server answers one call at a time, which is what an agent needs mid-conversation. For hundreds or thousands of URLs in one go, use the batch actors: <a href="/guides/convert-web-page-to-markdown/">URL to Markdown</a>, <a href="/guides/extract-text-from-pdf-urls/">PDF to Text</a>, <a href="/guides/convert-rss-feed-to-json/">RSS to JSON</a> and <a href="/guides/get-all-urls-from-sitemap/">Sitemap URL Extractor</a>.</p>
+<h2>Where to get it</h2>
+<p>Web to Text MCP Server: <a href="/p/web-to-text-mcp/">product page</a> on this shop, or <a href="https://apify.com/comradecoding/web-to-text-mcp">connect through the Apify Store</a>.</p>
+<p class="note">This guide was written with AI (Claude) and checked against the product's documentation.</p>
+<p><a href="/guides/">All guides</a> &nbsp; <a href="/">All products</a></p>
+</article>
+</main>
+<footer><div class="wrap">Small tools and printables by ComradeCoding. Each product is sold on the store linked from its page. <a href="/about/">About and privacy</a></div></footer>
+</body>
+</html>

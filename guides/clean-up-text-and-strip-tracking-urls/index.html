@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Clean Up Scraped Text and Strip Tracking Parameters from URLs | ComradeCoding</title>
+<meta name="description" content="Fix mojibake like CafÃ©, strip leftover HTML, tidy Unicode and whitespace, and remove utm_ and fbclid parameters from links, with Python or a pay-per-text actor.">
+<link rel="canonical" href="https://shop.comradecoding.com/guides/clean-up-text-and-strip-tracking-urls/">
+<meta property="og:title" content="How to Clean Up Scraped Text and Strip Tracking Parameters from URLs | ComradeCoding">
+<meta property="og:description" content="Fix mojibake like CafÃ©, strip leftover HTML, tidy Unicode and whitespace, and remove utm_ and fbclid parameters from links, with Python or a pay-per-text actor.">
+<meta property="og:url" content="https://shop.comradecoding.com/guides/clean-up-text-and-strip-tracking-urls/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to Clean Up Scraped Text and Strip Tracking Parameters from URLs", "description": "Fix mojibake like Caf\u00c3\u00a9, strip leftover HTML, tidy Unicode and whitespace, and remove utm_ and fbclid parameters from links, with Python or a pay-per-text actor.", "url": "https://shop.comradecoding.com/guides/clean-up-text-and-strip-tracking-urls/", "mainEntityOfPage": "https://shop.comradecoding.com/guides/clean-up-text-and-strip-tracking-urls/", "datePublished": "2026-10-30", "dateModified": "2026-10-30", "author": {"@type": "Organization", "name": "ComradeCoding"}, "publisher": {"@type": "Organization", "name": "ComradeCoding"}}</script>
+<style>
+:root{--bg:#fbf8f3;--ink:#1d1a16;--muted:#6b645a;--line:#e6dfd3;--red:#b3261e;--card:#fff;--gold:#c99a2e}
+@media (prefers-color-scheme:dark){:root{--bg:#16130f;--ink:#f2ece2;--muted:#a69d90;--line:#2e2922;--red:#ff6b5e;--card:#1e1a15;--gold:#e0b553}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--red)}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+header{border-bottom:1px solid var(--line);padding:20px 0}
+header .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand span{color:var(--red)}
+header nav a{color:var(--muted);text-decoration:none;font-size:15px}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.15;letter-spacing:-.02em;margin:40px 0 8px}
+.lede{color:var(--muted);margin:0 0 32px;max-width:640px}
+h2{font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:40px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.card:hover{border-color:var(--gold)}
+.card img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;border-bottom:1px solid var(--line);background:#fff}
+.card .noimg{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;font:700 22px/1.2 ui-monospace,monospace;color:var(--red);border-bottom:1px solid var(--line);padding:16px;text-align:center}
+.card .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h3{margin:0;font-size:17px;line-height:1.3}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.meta{font-size:13px;color:var(--muted);margin-top:auto;padding-top:6px}
+.meta b{color:var(--ink)}
+.buy{display:inline-block;background:var(--red);color:#fff;text-decoration:none;font-weight:700;padding:12px 20px;border-radius:8px;margin:8px 0 24px}
+.prod{max-width:720px}
+.prod img.hero{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:24px 0}
+.shots img{width:100%;border:1px solid var(--line);border-radius:6px;background:#fff}
+.guide{max-width:720px}
+.guide h2{font-size:22px;text-transform:none;letter-spacing:-.01em;color:var(--ink);margin:36px 0 10px}
+.guide h3{font-size:18px;margin:24px 0 6px}
+.guide li{margin:4px 0}
+code{font:15px/1.4 ui-monospace,Consolas,monospace;background:var(--card);border:1px solid var(--line);border-radius:4px;padding:1px 4px;overflow-wrap:anywhere}
+pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto}
+pre code{border:0;padding:0;background:none;overflow-wrap:normal}
+.cta{background:var(--card);border:1px solid var(--gold);border-radius:10px;padding:16px 18px;margin:32px 0}
+.cta p{margin:0 0 8px}
+.cta .buy{margin:4px 12px 0 0}
+.note{color:var(--muted);font-size:14px;margin-top:32px}
+footer{border-top:1px solid var(--line);margin-top:56px;padding:24px 0;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<header><div class="wrap"><a class="brand" href="/">Comrade<span>Coding</span> shop</a><nav><a href="/guides/">Guides</a> &nbsp; <a href="https://comradecoding.com/">comradecoding.com</a></nav></div></header>
+<main class="wrap">
+<article class="guide">
+<h1>How to Clean Up Scraped Text and Strip Tracking Parameters from URLs</h1>
+<p class="lede">Fix mojibake like CafÃ©, strip leftover HTML, tidy Unicode and whitespace, and remove utm_ and fbclid parameters from links, with Python or a pay-per-text actor.</p>
+<p>Text that comes out of a scrape, a CSV export or an old database is rarely clean. The usual damage: <code>CafÃ©</code> instead of <code>Café</code> (UTF-8 read as Windows-1252), stray <code>&lt;p&gt;</code> tags and <code>&amp;amp;</code> entities, invisible characters that break string matching, three spaces where one should be, and every link dragging <code>utm_source=newsletter&amp;fbclid=...</code> behind it. None of it is hard to fix alone. The work is doing all of it, in the right order, on ten thousand rows.</p>
+<h2>Step 1: Repair mojibake</h2>
+<p>The free <code>ftfy</code> library fixes most encoding damage in one call. Install it with <code>pip install ftfy</code>:</p>
+<pre><code>import ftfy
+print(ftfy.fix_text(&quot;CafÃ© opening hours, weâ€™ll be back&quot;))
+# Café opening hours, we’ll be back</code></pre>
+<h2>Step 2: Strip HTML and decode entities</h2>
+<pre><code>import html, re
+from bs4 import BeautifulSoup
+
+def strip_html(s):
+    if re.search(r&quot;&lt;(p|br|div|a|li|span|h[1-6])\b&quot;, s):
+        return BeautifulSoup(s, &quot;html.parser&quot;).get_text(&quot;\n&quot;)
+    return html.unescape(s)</code></pre>
+<p>The check for a real tag matters: plain text such as <code>if a&lt;b and c&gt;d</code> or <code>List&lt;String&gt;</code> is not HTML, and running it through a parser throws words away.</p>
+<h2>Step 3: Normalise Unicode and whitespace</h2>
+<pre><code>import unicodedata
+
+def tidy(s):
+    s = unicodedata.normalize(&quot;NFC&quot;, s)
+    s = re.sub(r&quot;[​‌﻿­]&quot;, &quot;&quot;, s)      # zero width space, BOM, soft hyphen
+    s = &quot;\n&quot;.join(re.sub(r&quot;[ \t ]+&quot;, &quot; &quot;, line).strip() for line in s.splitlines())
+    return re.sub(r&quot;\n{3,}&quot;, &quot;\n\n&quot;, s).strip()</code></pre>
+<p>Use <code>NFKC</code> instead of <code>NFC</code> if you also want ligatures (<code>ﬁ</code>) and full-width letters (<code>ＡＢＣ</code>) turned into plain ones, which helps search and matching.</p>
+<h2>Step 4: Remove tracking parameters from links</h2>
+<pre><code>from urllib.parse import urlsplit, urlunsplit, parse_qsl, urlencode
+
+TRACKERS = {&quot;fbclid&quot;, &quot;gclid&quot;, &quot;msclkid&quot;, &quot;mc_eid&quot;, &quot;mc_cid&quot;, &quot;igshid&quot;, &quot;yclid&quot;, &quot;ttclid&quot;, &quot;_hsenc&quot;, &quot;_hsmi&quot;, &quot;mkt_tok&quot;}
+
+def clean_url(u):
+    parts = urlsplit(u)
+    q = [(k, v) for k, v in parse_qsl(parts.query, keep_blank_values=True)
+         if not (k.lower().startswith(&quot;utm_&quot;) or k.lower() in TRACKERS)]
+    return urlunsplit(parts._replace(query=urlencode(q)))
+
+text = re.sub(r&quot;https?://[^\s&lt;&gt;\&quot;&#x27;)]+&quot;, lambda m: clean_url(m.group(0)), text)</code></pre>
+<h2>The one-pass route for lists of texts</h2>
+<p>Text Cleanup and URL De-tracking, an Apify actor, does the four steps above in one pass over a list of texts and returns one row per text, in the same order. Each row has the cleaned <code>text</code> plus counts of what changed: <code>mojibake_fixed</code>, <code>params_removed</code>, <code>urls_changed</code> and whether <code>html_stripped</code>. Send an <code>id</code> with each text and it is copied to the output row, so you can join results back to your records. It makes no network requests; it only reads the text you send.</p>
+<p>Options:</p>
+<ul><li><code>htmlMode</code>: <code>auto</code> strips tags only when the text has a real HTML tag; <code>strip</code> always treats it as HTML; <code>keep</code> leaves tags alone.</li><li><code>fixMojibake</code>: on by default. Turn off for text you know is correct.</li><li><code>unicodeForm</code>: <code>NFC</code> (default), <code>NFKC</code>, <code>NFD</code>, <code>NFKD</code> or <code>none</code>.</li><li><code>whitespace</code>: <code>lines</code> (default), <code>collapse</code> to one line, or <code>keep</code>.</li><li><code>cleanUrls</code>: removes <code>utm_</code> parameters and 30 named trackers such as <code>fbclid</code>, <code>gclid</code> and <code>msclkid</code>.</li><li><code>maxItems</code>: stop after this many rows.</li></ul>
+<p>From Python with the Apify client (<code>pip install apify-client</code>):</p>
+<pre><code>from apify_client import ApifyClient
+
+client = ApifyClient(&quot;YOUR_APIFY_TOKEN&quot;)
+run = client.actor(&quot;comradecoding/text-cleanup&quot;).call(run_input={
+    &quot;texts&quot;: [
+        {&quot;id&quot;: &quot;review-17&quot;, &quot;text&quot;: &quot;Great service, weâ€™ll be back. https://example.org/book?ref=home&amp;fbclid=IwAR0abc&quot;},
+        {&quot;id&quot;: &quot;review-18&quot;, &quot;text&quot;: &quot;&lt;p&gt;CafÃ© opening hours: Mon to Fri, 8Â am to 4Â pm.&lt;/p&gt;&quot;},
+    ],
+    &quot;unicodeForm&quot;: &quot;NFKC&quot;,
+})
+for row in client.dataset(run[&quot;defaultDatasetId&quot;]).iterate_items():
+    print(row[&quot;id&quot;], row[&quot;mojibake_fixed&quot;], row[&quot;params_removed&quot;], row[&quot;text&quot;])</code></pre>
+<p>In Make, n8n or Zapier, map the field you want cleaned into <code>texts</code> and the record key into <code>id</code>. An agent can call it as a tool through Apify's MCP server at <code>https://mcp.apify.com?tools=comradecoding/text-cleanup</code>.</p>
+<p>It costs $0.0005 per output row: 1,000 texts is about $0.50, 10,000 about $5. Skipped entries (empty, not text, or over 500,000 characters) are free and listed in the run's <code>FAILED_INPUTS</code> record.</p>
+<p>Its limits: it repairs the common case, UTF-8 read as Windows-1252 or Latin-1, not other code pages. A single broken character standing alone is left as it is when correct text could look the same (<code>IRMÃ…</code> stays, <code>SÃ£o Paulo</code> is repaired). It does not expand short links or follow URLs, and it removes only the tracking parameters it knows.</p>
+<aside class="cta"><p><b>Text Cleanup and URL De-tracking</b>: Cleans a list of texts in one pass: strips HTML, repairs mojibake, tidies Unicode and removes URL trackers. $0.0005 per text. (125)</p>
+<p><a href="/p/text-cleanup/">Product page</a> &nbsp; <a class="buy" href="https://apify.com/comradecoding/text-cleanup">Get it on Apify, $0.0005 per row</a></p></aside>
+<h2>FAQ</h2>
+<h3>Why did my line breaks disappear?</h3>
+<p>The text was treated as HTML, where line breaks come from tags, not newlines. Use <code>htmlMode: keep</code> for plain text that happens to contain something like <code>&lt;b&gt;</code>.</p>
+<h3>Will it change text that is already correct?</h3>
+<p>Only by the steps you leave on: whitespace, Unicode normalisation, invisible characters and tracking parameters. For the lightest touch set <code>fixMojibake: false</code>, <code>whitespace: keep</code> and <code>unicodeForm: none</code>.</p>
+<h2>Where to get it</h2>
+<p>Text Cleanup and URL De-tracking: <a href="/p/text-cleanup/">product page</a> on this shop, or <a href="https://apify.com/comradecoding/text-cleanup">run it on the Apify Store</a>.</p>
+<p class="note">This guide was written with AI (Claude) and checked against the product's documentation.</p>
+<p><a href="/guides/">All guides</a> &nbsp; <a href="/">All products</a></p>
+</article>
+</main>
+<footer><div class="wrap">Small tools and printables by ComradeCoding. Each product is sold on the store linked from its page. <a href="/about/">About and privacy</a></div></footer>
+</body>
+</html>

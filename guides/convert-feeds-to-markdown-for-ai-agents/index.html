@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Convert RSS and Atom Feeds to Markdown for an AI Agent | ComradeCoding</title>
+<meta name="description" content="Turn feed items into one Markdown document per article, with the full text when the feed only carries a teaser, using a few lines of Python or a scheduled run that returns only new items.">
+<link rel="canonical" href="https://shop.comradecoding.com/guides/convert-feeds-to-markdown-for-ai-agents/">
+<meta property="og:title" content="How to Convert RSS and Atom Feeds to Markdown for an AI Agent | ComradeCoding">
+<meta property="og:description" content="Turn feed items into one Markdown document per article, with the full text when the feed only carries a teaser, using a few lines of Python or a scheduled run that returns only new items.">
+<meta property="og:url" content="https://shop.comradecoding.com/guides/convert-feeds-to-markdown-for-ai-agents/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to Convert RSS and Atom Feeds to Markdown for an AI Agent", "description": "Turn feed items into one Markdown document per article, with the full text when the feed only carries a teaser, using a few lines of Python or a scheduled run that returns only new items.", "url": "https://shop.comradecoding.com/guides/convert-feeds-to-markdown-for-ai-agents/", "mainEntityOfPage": "https://shop.comradecoding.com/guides/convert-feeds-to-markdown-for-ai-agents/", "datePublished": "2026-10-30", "dateModified": "2026-10-30", "author": {"@type": "Organization", "name": "ComradeCoding"}, "publisher": {"@type": "Organization", "name": "ComradeCoding"}}</script>
+<style>
+:root{--bg:#fbf8f3;--ink:#1d1a16;--muted:#6b645a;--line:#e6dfd3;--red:#b3261e;--card:#fff;--gold:#c99a2e}
+@media (prefers-color-scheme:dark){:root{--bg:#16130f;--ink:#f2ece2;--muted:#a69d90;--line:#2e2922;--red:#ff6b5e;--card:#1e1a15;--gold:#e0b553}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--red)}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+header{border-bottom:1px solid var(--line);padding:20px 0}
+header .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand span{color:var(--red)}
+header nav a{color:var(--muted);text-decoration:none;font-size:15px}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.15;letter-spacing:-.02em;margin:40px 0 8px}
+.lede{color:var(--muted);margin:0 0 32px;max-width:640px}
+h2{font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:40px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.card:hover{border-color:var(--gold)}
+.card img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;border-bottom:1px solid var(--line);background:#fff}
+.card .noimg{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;font:700 22px/1.2 ui-monospace,monospace;color:var(--red);border-bottom:1px solid var(--line);padding:16px;text-align:center}
+.card .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h3{margin:0;font-size:17px;line-height:1.3}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.meta{font-size:13px;color:var(--muted);margin-top:auto;padding-top:6px}
+.meta b{color:var(--ink)}
+.buy{display:inline-block;background:var(--red);color:#fff;text-decoration:none;font-weight:700;padding:12px 20px;border-radius:8px;margin:8px 0 24px}
+.prod{max-width:720px}
+.prod img.hero{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:24px 0}
+.shots img{width:100%;border:1px solid var(--line);border-radius:6px;background:#fff}
+.guide{max-width:720px}
+.guide h2{font-size:22px;text-transform:none;letter-spacing:-.01em;color:var(--ink);margin:36px 0 10px}
+.guide h3{font-size:18px;margin:24px 0 6px}
+.guide li{margin:4px 0}
+code{font:15px/1.4 ui-monospace,Consolas,monospace;background:var(--card);border:1px solid var(--line);border-radius:4px;padding:1px 4px;overflow-wrap:anywhere}
+pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto}
+pre code{border:0;padding:0;background:none;overflow-wrap:normal}
+.cta{background:var(--card);border:1px solid var(--gold);border-radius:10px;padding:16px 18px;margin:32px 0}
+.cta p{margin:0 0 8px}
+.cta .buy{margin:4px 12px 0 0}
+.note{color:var(--muted);font-size:14px;margin-top:32px}
+footer{border-top:1px solid var(--line);margin-top:56px;padding:24px 0;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<header><div class="wrap"><a class="brand" href="/">Comrade<span>Coding</span> shop</a><nav><a href="/guides/">Guides</a> &nbsp; <a href="https://comradecoding.com/">comradecoding.com</a></nav></div></header>
+<main class="wrap">
+<article class="guide">
+<h1>How to Convert RSS and Atom Feeds to Markdown for an AI Agent</h1>
+<p class="lede">Turn feed items into one Markdown document per article, with the full text when the feed only carries a teaser, using a few lines of Python or a scheduled run that returns only new items.</p>
+<p>A language model reads Markdown well and HTML badly. If you want an agent to summarise this morning's blog posts, watch release notes, or build a news digest, the cleanest input is one Markdown document per article: title, date, link, then the body with headings and lists kept and the site chrome gone. Feeds get you most of the way, but they are XML, and many of them only carry a short summary rather than the article.</p>
+<p>Here is how to get there with a short script, and when a hosted actor is the easier route.</p>
+<h2>Step 1: Read the feed and convert the summary</h2>
+<p>The free <code>feedparser</code> library reads RSS, Atom and JSON Feed into one structure, and <code>markdownify</code> turns the HTML in each item into Markdown. Install them with <code>pip install feedparser markdownify</code>, then:</p>
+<pre><code>import feedparser
+from markdownify import markdownify
+
+feed = feedparser.parse(&quot;https://blog.rust-lang.org/feed.xml&quot;)
+for e in feed.entries[:10]:
+    body = e.get(&quot;content&quot;, [{}])[0].get(&quot;value&quot;) or e.get(&quot;summary&quot;, &quot;&quot;)
+    doc = f&quot;# {e.get(&#x27;title&#x27;)}\n\n- Link: {e.get(&#x27;link&#x27;)}\n\n---\n\n{markdownify(body)}&quot;
+    print(doc[:300])</code></pre>
+<p>For feeds that include the whole post (many developer blogs do), this is already enough.</p>
+<h2>Step 2: Fetch the page when the feed is only a teaser</h2>
+<p>News sites and most company blogs put one or two sentences in the feed. For those, open the item's link and extract the main text. <code>trafilatura</code> does the extraction and can write Markdown directly:</p>
+<pre><code>import trafilatura
+
+html = trafilatura.fetch_url(e[&quot;link&quot;])
+text = trafilatura.extract(html, output_format=&quot;markdown&quot;, include_links=True)</code></pre>
+<p>Decide per item: if the feed text is short, say under 150 words, fetch the page; otherwise keep the feed text and save a request.</p>
+<h2>Step 3: Things that go wrong at scale</h2>
+<ul><li><b>robots.txt and crawl delays.</b> Check them before fetching pages, and pause between requests to the same site.</li><li><b>Encoding.</b> Some servers send the wrong charset header, and accented letters come out mangled.</li><li><b>Dates.</b> Feeds mix ISO 8601, RFC 822 and plain mistakes. Normalise to UTC before sorting.</li><li><b>Duplicates.</b> The same post appears under several URLs with <code>utm_</code> parameters, or the feed repeats items between runs. Keep a store of keys you have already handed to the model.</li><li><b>Pages built with JavaScript.</b> They return little text to any tool that reads the server HTML. Keep the feed text for those.</li><li><b>Relative links and images.</b> Make them absolute, or the model cannot follow them.</li></ul>
+<p>Each of these is a few lines, but together they are a small project to maintain.</p>
+<h2>The no-code or scheduled route</h2>
+<p>Feed to Markdown for AI Agents, an Apify actor, does all of the above for a list of feed URLs. For each item it returns <code>title</code>, <code>url</code>, <code>author</code>, <code>published_at</code> and <code>markdown</code>: one document that starts with the title, date and link, then the body with absolute links. <code>content_source</code> says whether the text came from the feed or the page, and <code>page_error</code> says why a page could not be used.</p>
+<p>The options that matter for an agent pipeline:</p>
+<ul><li><code>contentMode</code>: <code>auto</code> (default) uses the feed text when it has 150 words or more and opens the page otherwise; <code>page</code> always opens the page; <code>feed</code> never does.</li><li><code>publishedAfter</code>: skip items older than a date or an age such as <code>24 hours</code> or <code>7 days</code>.</li><li><code>seenItemsStore</code>: name a store, and every scheduled run returns only items earlier runs have not returned.</li><li><code>includeImages</code>: turn off for shorter, text-only output.</li><li><code>maxItems</code> and <code>maxItemsPerFeed</code>: cap the run.</li></ul>
+<p>Run it from Python with the Apify client (<code>pip install apify-client</code>):</p>
+<pre><code>from apify_client import ApifyClient
+
+client = ApifyClient(&quot;YOUR_APIFY_TOKEN&quot;)
+run = client.actor(&quot;comradecoding/feed-to-markdown&quot;).call(run_input={
+    &quot;feedUrls&quot;: [&quot;https://blog.rust-lang.org/feed.xml&quot;, &quot;https://github.blog/&quot;],
+    &quot;maxItemsPerFeed&quot;: 10,
+    &quot;publishedAfter&quot;: &quot;7 days&quot;,
+    &quot;includeImages&quot;: False,
+    &quot;seenItemsStore&quot;: &quot;my-news-feeds&quot;,
+})
+for row in client.dataset(run[&quot;defaultDatasetId&quot;]).iterate_items():
+    print(row[&quot;published_at&quot;], row[&quot;title&quot;])
+    # row[&quot;markdown&quot;] goes to the model</code></pre>
+<p>Put the same input on an Apify schedule and the dataset of each run holds only what is new. You can also hand the actor straight to an agent as a tool through Apify's MCP server at <code>https://mcp.apify.com?tools=comradecoding/feed-to-markdown</code>.</p>
+<p>It costs $0.002 per item saved, so 1,000 items is about $2. Failed feeds, items with no text and skipped items are free. A schedule that checks 20 feeds every hour and finds about 5 new items an hour comes to about $7 a month.</p>
+<p>Its limits: public feeds and pages only, no logins and no paywalls. It reads what the feed holds now, usually the last 10 to 50 items. Pages built entirely with JavaScript return little text, and image-only posts such as web comics are better fetched with <code>contentMode: &quot;feed&quot;</code> and images on.</p>
+<aside class="cta"><p><b>Feed to Markdown for AI Agents</b>: Returns one row per RSS, Atom or JSON Feed item with the full article as one Markdown field. $0.002 per item. (108)</p>
+<p><a href="/p/feed-to-markdown/">Product page</a> &nbsp; <a class="buy" href="https://apify.com/comradecoding/feed-to-markdown">Get it on Apify, $0.002 per item</a></p></aside>
+<h2>FAQ</h2>
+<h3>How is this different from converting the feed to JSON?</h3>
+<p><a href="/guides/convert-rss-feed-to-json/">RSS and Atom to JSON</a> gives you many structured fields per item with a plain text summary, for databases and spreadsheets. This gives you one Markdown document per item, with the article body, for a model.</p>
+<h3>Can I get the archive of older posts?</h3>
+<p>Not from the feed. Start polling now with <code>seenItemsStore</code> and keep what you collect, or list the site's older pages from its sitemap and convert them with <a href="/guides/convert-web-page-to-markdown/">URL to Markdown</a>.</p>
+<h3>Does it work for podcasts?</h3>
+<p>The feed items convert, but the audio is not transcribed. You get the show notes as Markdown.</p>
+<h2>Where to get it</h2>
+<p>Feed to Markdown for AI Agents: <a href="/p/feed-to-markdown/">product page</a> on this shop, or <a href="https://apify.com/comradecoding/feed-to-markdown">run it on the Apify Store</a>.</p>
+<p class="note">This guide was written with AI (Claude) and checked against the product's documentation.</p>
+<p><a href="/guides/">All guides</a> &nbsp; <a href="/">All products</a></p>
+</article>
+</main>
+<footer><div class="wrap">Small tools and printables by ComradeCoding. Each product is sold on the store linked from its page. <a href="/about/">About and privacy</a></div></footer>
+</body>
+</html>
